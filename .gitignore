@@ -1,4 +1,5 @@
 .vs
+*.DS_Store
 npl_packages
 *.db
 *.opendb
@@ -7,4 +8,8 @@ npl_packages
 *.suo
 *.log
 *.txt
+*.dll
+*.exe
+*.zip
+*.pkg
 Debug
