@@ -9,6 +9,10 @@ NPL.load("(gl)Mod/BlocklyProgramMod/main.lua");
 local BlocklyProgramMod = commonlib.gettable("Mod.BlocklyProgramMod");
 ------------------------------------------------------------
 ]]
+
+NPL.load("(gl)Mod/BlocklyProgramMod/filters.lua");
+local Filters = commonlib.gettable("Mod.BlocklyProgramMod.Filters");
+
 local BlocklyProgramMod = commonlib.inherit(commonlib.gettable("Mod.ModBase"),commonlib.gettable("Mod.BlocklyProgramMod"));
 
 function BlocklyProgramMod:ctor()
@@ -28,6 +32,7 @@ end
 
 function BlocklyProgramMod:init()
 	LOG.std(nil, "info", "BlocklyProgramMod", "plugin initialized");
+	Filters.Install();
 end
 
 function BlocklyProgramMod:OnLogin()
