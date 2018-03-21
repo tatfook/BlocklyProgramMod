@@ -34,8 +34,8 @@ function Entity:ctor()
     self.mProgrammingCommandQueue:AddEventListener(
         "CompleteSucceed",
         function()
-            if self.mLastResult then
-                self:SetLastCommandResult(self.mLastResult)
+            if not self.mIgnoreOutput then
+                self:SetLastCommandResult(15)
             end
         end
     )
@@ -85,92 +85,8 @@ end
 function Entity:execute(entityPlayer, bIgnoreNeuronActivation, bIgnoreOutput, addr)
     self:OpenBlocklyInBrowser(addr)
     ProgrammingCommandManager:setCommandQueue(self.mProgrammingCommandQueue)
-    self.mLastResult = self:ExecuteCommand_Super(entityPlayer, bIgnoreNeuronActivation, true)
-    if bIgnoreOutput then
-        self.mLastResult = nil
-    end
-end
-
-function Entity:ExecuteCommand_Super(entityPlayer, bIgnoreNeuronActivation, bIgnoreOutput, addr)
-    NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ItemClient.lua")
-    NPL.load("(gl)script/apps/Aries/Creator/Game/Common/Direction.lua")
-    NPL.load("(gl)script/apps/Aries/Creator/Game/Entity/EntityBlockBase.lua")
-    NPL.load("(gl)script/apps/Aries/Creator/Game/Neuron/NeuronManager.lua")
-    NPL.load("(gl)script/apps/Aries/Creator/Game/Items/InventoryBase.lua")
-    NPL.load("(gl)script/apps/Aries/Creator/Game/Items/ContainerView.lua")
-    local ContainerView = commonlib.gettable("MyCompany.Aries.Game.Items.ContainerView")
-    local InventoryBase = commonlib.gettable("MyCompany.Aries.Game.Items.InventoryBase")
-    local NeuronManager = commonlib.gettable("MyCompany.Aries.Game.Neuron.NeuronManager")
-    local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")
-    local Direction = commonlib.gettable("MyCompany.Aries.Game.Common.Direction")
-    local ItemClient = commonlib.gettable("MyCompany.Aries.Game.Items.ItemClient")
-    local PhysicsWorld = commonlib.gettable("MyCompany.Aries.Game.PhysicsWorld")
-    local BlockEngine = commonlib.gettable("MyCompany.Aries.Game.BlockEngine")
-    local TaskManager = commonlib.gettable("MyCompany.Aries.Game.TaskManager")
-    local block_types = commonlib.gettable("MyCompany.Aries.Game.block_types")
-    local GameLogic = commonlib.gettable("MyCompany.Aries.Game.GameLogic")
-    local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager")
-    if (self:IsInputDisabled()) then
-        return
-    end
-
-    -- clear all time event
-    self:ClearTimeEvent()
-
-    -- just in case the command contains variables.
-    local variables = (entityPlayer or self):GetVariables()
-    local last_result
-    local cmd_list = self:GetCommandList()
-    if (cmd_list) then
-        last_result = CommandManager:RunCmdList(cmd_list, variables, self)
-    end
-
-    local bIsInsideBracket
-    local bIsNegatingSign
-    for i = 1, self.inventory:GetSlotCount() do
-        local itemStack = self.inventory:GetItem(i)
-        if (itemStack) then
-            if (bIsInsideBracket) then
-                if (itemStack.id == block_types.names.Redstone_Wire) then
-                    -- this is a logical OR
-                    bIsInsideBracket = false
-                    bIsNegatingSign = false
-                end
-            else
-                if (itemStack.id == block_types.names.Redstone_Torch_On) then
-                    bIsNegatingSign = not bIsNegatingSign
-                else
-                    -- if script return false, we will stop loading slots behind
-                    last_result = itemStack:OnActivate(self, entityPlayer)
-                    if ((not bIsNegatingSign and last_result == false) or (bIsNegatingSign and last_result ~= false)) then
-                        if (not bIsInsideBracket) then
-                            bIsInsideBracket = true
-                        else
-                            break
-                        end
-                    end
-                    if (bIsNegatingSign) then
-                        bIsNegatingSign = false
-                    end
-                end
-            end
-        end
-    end
-
-    if (not bIgnoreOutput) then
-        self:SetLastCommandResult(last_result)
-    end
-
-    -- if the containing block is a neuron block, we will fire an activation.
-    if (not bIgnoreNeuronActivation) then
-        local bx, by, bz = self:GetBlockPos()
-        local neuron = NeuronManager.GetNeuron(bx, by, bz, false)
-        if (neuron) then
-            neuron:Activate({type = "click", action = "toggle"})
-        end
-    end
-
-    return last_result
+    self._super.ExecuteCommand(self, entityPlayer, bIgnoreNeuronActivation, true)
+    self.mIgnoreOutput = bIgnoreOutput
 end
 
 function Entity:OpenBlocklyInBrowser(addr)

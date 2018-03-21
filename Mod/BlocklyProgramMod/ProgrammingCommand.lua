@@ -27,6 +27,9 @@ function Command:finish()
     echo("devilwalk--------------------------------------------debug:Command:finish")
     self:DispatchEventByType("Finish", {})
 end
+function Command:stop()
+    echo("devilwalk--------------------------------------------debug:Command:stop")
+end
 --[[
     new Move({
         mContext={
@@ -85,6 +88,10 @@ function Move:executing()
         )
         self.mState = Command.EState.Finish
     end
+end
+function Move:stop()
+    echo("devilwalk--------------------------------------------debug:Move:stop")
+    self.mContext.mEntity:SetBlockTarget()
 end
 --[[
     new Move({

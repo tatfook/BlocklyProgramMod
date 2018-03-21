@@ -72,10 +72,9 @@ function CommandQueue:getCompleteCondition()
     return self.mCompleteCondition
 end
 function CommandQueue:reset()
-    echo(
-        "devilwalk--------------------------------------------------------debug:CommandQueue:reset:self.mCompleteCondition:"
-    )
-    echo(self.mCompleteCondition)
+    if self.mCurrentCommandIndex and self.mCommands[self.mCurrentCommandIndex] then
+        self.mCommands[self.mCurrentCommandIndex]:stop()
+    end
     self.mCommands = nil
     self.mCurrentCommandIndex = nil
     self.mTimer:Change()

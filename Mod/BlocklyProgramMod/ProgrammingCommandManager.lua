@@ -13,7 +13,7 @@ function CommandManager:ctor()
 end
 function CommandManager:setCommandQueue(queue)
     if queue ~= self.mCommandQueue then
-        if self.mCommandQueue then
+        if self.mCommandQueue and self.mCommandQueue:getPageKey() then
             self.mInvalidatePageKeys[self.mCommandQueue:getPageKey()] = true
         end
         self.mCommandQueue = queue

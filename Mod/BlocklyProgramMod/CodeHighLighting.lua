@@ -58,8 +58,10 @@ function CodeHighLighting.ShowPage(bForceRefreshPage, alignment, left, top, widt
 end
 
 function CodeHighLighting.Close()
-	ParaUI.Destroy("CodeHighLightingLogPage")
-	CodeHighLighting.is_shown = false
+	if CodeHighLighting.is_shown then
+		ParaUI.Destroy("CodeHighLightingLogPage")
+		CodeHighLighting.is_shown = false
+	end
 end
 
 -- only called by CodeHighLighting.html
@@ -442,11 +444,11 @@ function CodeHighLighting.parse(code)
 	local API = commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingAPI")
 	local line_codes = {}
 	while (string.find(code, "\n")) do
-		local line_code=string.sub(code, 1, string.find(code, '\n') - 1)
-		if line_code and line_code~="" then
+		local line_code = string.sub(code, 1, string.find(code, "\n") - 1)
+		if line_code and line_code ~= "" then
 			line_codes[#line_codes + 1] = line_code
 		end
-		code = string.sub(code, string.find(code, '\n') + 1)
+		code = string.sub(code, string.find(code, "\n") + 1)
 	end
 	if code and code ~= "" then
 		line_codes[#line_codes + 1] = code
@@ -455,7 +457,7 @@ function CodeHighLighting.parse(code)
 	for line_index, line_code in pairs(line_codes) do
 		local finded = false
 		for funcion_name, _ in pairs(API) do
-			if string.find(line_code, "API."..funcion_name) then
+			if string.find(line_code, "API." .. funcion_name) then
 				finded = true
 				break
 			end
@@ -471,7 +473,9 @@ function CodeHighLighting.parse(code)
 	end
 	echo("devilwalk----------------------------------------------------debug:CodeHighLighting.parse:ret:")
 	echo(ret)
-	echo("devilwalk----------------------------------------------------debug:CodeHighLighting.parse:CodeHighLighting.mCodeShow:")
+	echo(
+		"devilwalk----------------------------------------------------debug:CodeHighLighting.parse:CodeHighLighting.mCodeShow:"
+	)
 	echo(CodeHighLighting.mCodeShow)
 	return ret
 end
@@ -485,18 +489,18 @@ local HighLighting =
 function HighLighting:ctor()
 end
 function HighLighting:executing()
-    echo("devilwalk--------------------------------------------debug:HighLighting:executing")
+	echo("devilwalk--------------------------------------------debug:HighLighting:executing")
 	local ctl = CodeHighLighting.GetTreeView()
 	local rootNode = ctl.RootNode
-	while rootNode:GetChildCount()>0 do
+	while rootNode:GetChildCount() > 0 do
 		rootNode:RemoveChildByIndex(1)
 	end
-	for line_index,line_code in pairs(CodeHighLighting.mCodeShow) do
-		local word_color=nil;
-		if line_index==self.mContext.mLineIndex then
-			word_color=666666;
+	for line_index, line_code in pairs(CodeHighLighting.mCodeShow) do
+		local word_color = nil
+		if line_index == self.mContext.mLineIndex then
+			word_color = 666666
 		end
-		CodeHighLighting.AppendChatMessage({words=line_code,color=word_color},true);
+		CodeHighLighting.AppendChatMessage({words = line_code, color = word_color}, true)
 	end
 	self.mState = Mod.BlocklyProgramMod.ProgrammingCommand.EState.Finish
 end
