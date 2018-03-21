@@ -57,6 +57,11 @@ function CodeHighLighting.ShowPage(bForceRefreshPage, alignment, left, top, widt
 	CodeHighLighting.is_shown = true
 end
 
+function CodeHighLighting.Close()
+	ParaUI.Destroy("CodeHighLightingLogPage")
+	CodeHighLighting.is_shown = false
+end
+
 -- only called by CodeHighLighting.html
 function CodeHighLighting.Init()
 	CodeHighLighting.page = document:GetPageCtrl()

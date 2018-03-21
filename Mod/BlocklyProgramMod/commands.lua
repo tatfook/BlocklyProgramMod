@@ -80,6 +80,6 @@ Commands["BlocklyReset"] = {
         NPL.load("(gl)Mod/BlocklyProgramMod/ProgrammingCommandManager.lua")
         local BlocklyProgrammingCommandManager =
             commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton()
-        BlocklyProgrammingCommandManager:getCommandQueue():reset()
+        BlocklyProgrammingCommandManager:reset()
     end
 }

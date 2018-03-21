@@ -58,3 +58,7 @@ function CommandManager:run(code)
         func()
     end
 end
+function CommandManager:reset()
+    CodeHighLighting.Close();
+    self.mCommandQueue:reset();
+end
