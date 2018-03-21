@@ -480,6 +480,7 @@ local HighLighting =
 function HighLighting:ctor()
 end
 function HighLighting:executing()
+    echo("devilwalk--------------------------------------------debug:HighLighting:executing")
 	local ctl = CodeHighLighting.GetTreeView()
 	local rootNode = ctl.RootNode
 	while rootNode:GetChildCount()>0 do
@@ -495,9 +496,7 @@ function HighLighting:executing()
 	self.mState = Mod.BlocklyProgramMod.ProgrammingCommand.EState.Finish
 end
 function CodeHighLighting.highLighting(lineIndex)
-	NPL.load("(gl)Mod/BlocklyProgramMod/ProgrammingCommandQueue.lua")
 	NPL.load("(gl)Mod/BlocklyProgramMod/ProgrammingCommandManager.lua")
 	local CommandManager = commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton()
-	local CommandQueue = commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandQueue").singleton()
-	CommandQueue:add(HighLighting:new({mContext = {mLineIndex = lineIndex}}))
+	CommandManager:getCommandQueue():add(HighLighting:new({mContext = {mLineIndex = lineIndex}}))
 end

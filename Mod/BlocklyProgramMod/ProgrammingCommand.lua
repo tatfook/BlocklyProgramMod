@@ -70,7 +70,8 @@ function Move:execute()
     )
 end
 function Move:executing()
-    echo("devilwalk--------------------------------------------debug:Move:executing")
+    echo("devilwalk--------------------------------------------debug:Move:executing:self.mContext.mDestBlockPosition:")
+    echo(self.mContext.mDestBlockPosition)
     if not self.mContext.mEntity:HasTarget() then
         self.mContext.mEntity:SetBlockPos(
             self.mContext.mDestBlockPosition[1] + 1,
