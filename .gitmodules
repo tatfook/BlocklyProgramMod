@@ -1,6 +1,6 @@
 [submodule "Mod/BlocklyProgramMod/web/closure-library"]
-	path = Mod/BlocklyProgramMod/web/closure-library
+	path = script/apps/WebServer/admin/wp-includes/js/closure-library
 	url = https://github.com/google/closure-library.git
 [submodule "Mod/BlocklyProgramMod/web/blockly"]
-	path = Mod/BlocklyProgramMod/web/blockly
+	path = script/apps/WebServer/admin/wp-includes/js/blockly
 	url = https://github.com/google/blockly.git
