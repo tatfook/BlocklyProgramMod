@@ -85,7 +85,7 @@
 
 <body onload="start()">
   <button id="Run" onclick="onClickRun()">运行</button>
-  <textarea id="LuaCode" style="height: 400px; width: 200px;">实时lua代码</textarea>
+  <!-- <textarea id="LuaCode" style="height: 400px; width: 200px;">实时lua代码</textarea> -->
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
   <xml id="toolbox" style="display: none">
     <block type="ParaCraft_Start"></block>
