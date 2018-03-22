@@ -38,7 +38,7 @@
         gWorkSpace.addChangeListener(onWorkSpaceEvent);
       }
       function reset() {
-        var string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/BlocklyReset")';
+        var string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/BlocklyReset '+ gPageKey +'")';
         $.post("/ajax/console?action=runcode", { text: string_code.valueOf() });
       }
       function run() {
@@ -88,13 +88,6 @@
   <textarea id="LuaCode" style="height: 400px; width: 200px;">实时lua代码</textarea>
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
   <xml id="toolbox" style="display: none">
-    <block type="controls_if"></block>
-    <block type="controls_repeat_ext"></block>
-    <block type="logic_compare"></block>
-    <block type="math_number"></block>
-    <block type="math_arithmetic"></block>
-    <block type="text"></block>
-    <block type="text_print"></block>
     <block type="ParaCraft_Start"></block>
     <block type="ParaCraft_FarwardStep"></block>
     <block type="ParaCraft_TurnLeft"></block>
@@ -102,13 +95,6 @@
     <block type="ParaCraft_DestroyBlock"></block>
   </xml>
   <xml id="toolbox2" style="display: none">
-    <block type="controls_if"></block>
-    <block type="controls_repeat_ext"></block>
-    <block type="logic_compare"></block>
-    <block type="math_number"></block>
-    <block type="math_arithmetic"></block>
-    <block type="text"></block>
-    <block type="text_print"></block>
     <block type="ParaCraft_Start" disabled="true"></block>
     <block type="ParaCraft_FarwardStep"></block>
     <block type="ParaCraft_TurnLeft"></block>

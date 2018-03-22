@@ -8,6 +8,7 @@
     NPL.load("(gl)Mod/BlocklyProgramMod/commands.lua");
     ------------------------------------------------------------
 ]]
+NPL.load("(gl)script/ide/System/Compiler/nplc.lua")
 NPL.load("(gl)Mod/BlocklyProgramMod/ProgrammingCommandManager.lua")
 NPL.load("(gl)script/apps/Aries/Creator/Game/Entity/EntityManager.lua")
 local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager")
@@ -29,7 +30,7 @@ Commands["BlocklyCode"] = {
         local BlocklyProgrammingAPI = commonlib.gettable('Mod.BlocklyProgramMod.ProgrammingAPI');\r\n \
         "
         run_code = run_code .. cmd_text
-        local code_func, err = loadstring(run_code)
+        local code_func, err = NPL.loadstring(run_code)
         if err then
             echo("devilwalk-----------------------------------------------error:BlocklyCode:compiler err:")
             echo(err)
@@ -80,6 +81,11 @@ Commands["BlocklyReset"] = {
         NPL.load("(gl)Mod/BlocklyProgramMod/ProgrammingCommandManager.lua")
         local BlocklyProgrammingCommandManager =
             commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton()
-        BlocklyProgrammingCommandManager:reset()
+        --parse page key
+        local page_key
+        if cmd_text and cmd_text ~= "" then
+            page_key = tonumber(cmd_text)
+        end
+        BlocklyProgrammingCommandManager:reset(page_key)
     end
 }

@@ -24,19 +24,18 @@ Entity.disable_auto_stop_time = true
 -- in seconds
 -- Entity.framemove_interval = 0.01;
 
+local function _onCommandQueueCompleteSucceed(entity)
+    echo("devilwalk--------------------------------------------------debug:EntityBlockly.lua:_onCommandQueueCompleteSucceed")
+    if not entity.mIgnoreOutput then
+        entity:SetLastCommandResult(15)
+        entity:SetLastCommandResult()
+    end
+end
+
 function Entity:ctor()
     self.inventory:SetOnChangedCallback(
         function()
             self:OnInventoryChanged()
-        end
-    )
-    self.mProgrammingCommandQueue = ProgrammingCommandQueue:new()
-    self.mProgrammingCommandQueue:AddEventListener(
-        "CompleteSucceed",
-        function()
-            if not self.mIgnoreOutput then
-                self:SetLastCommandResult(15)
-            end
         end
     )
 end
@@ -84,6 +83,11 @@ end
 
 function Entity:execute(entityPlayer, bIgnoreNeuronActivation, bIgnoreOutput, addr)
     self:OpenBlocklyInBrowser(addr)
+    if self.mProgrammingCommandQueue then
+        self.mProgrammingCommandQueue:RemoveEventListener("CompleteSucceed", _onCommandQueueCompleteSucceed, self)
+    end
+    self.mProgrammingCommandQueue = ProgrammingCommandQueue:new()
+    self.mProgrammingCommandQueue:AddEventListener("CompleteSucceed", _onCommandQueueCompleteSucceed, self)
     ProgrammingCommandManager:setCommandQueue(self.mProgrammingCommandQueue)
     self._super.ExecuteCommand(self, entityPlayer, bIgnoreNeuronActivation, true)
     self.mIgnoreOutput = bIgnoreOutput
