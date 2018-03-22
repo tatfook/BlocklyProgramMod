@@ -63,7 +63,7 @@
             var temp = temp.substring(temp.indexOf("\n") + 1);
           }
           string_code = string_code + temp;
-          document.getElementById('LuaCode').value = string_code.valueOf();
+          //document.getElementById('LuaCode').value = string_code.valueOf();
           string_code = gPageKey + "\\n" + string_code;
           string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/RunBlocklyCode ' + string_code + '")';
           $.post("/ajax/console?action=runcode", { text: string_code.valueOf() });
