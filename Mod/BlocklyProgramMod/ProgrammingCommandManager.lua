@@ -5,14 +5,6 @@ local GameLogic = commonlib.gettable("MyCompany.Aries.Game.GameLogic")
 local EntityNPC = commonlib.gettable("MyCompany.Aries.Game.EntityManager.EntityNPC")
 local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager")
 local CommandManager = commonlib.inherit(nil, commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager"))
-
-GameLogic.GetFilters():add_filter(
-    "register_classes_into_sandbox_api",
-    function(classes)
-        classes.BlocklyProgrammingCommandManager = commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager")
-    end
-)
-
 local Singleton
 function CommandManager.singleton()
     Singleton = Singleton or CommandManager:new()
@@ -87,3 +79,10 @@ function CommandManager:reset(pageKey)
         self.mCommandQueue:reset()
     end
 end
+
+GameLogic.GetFilters():add_filter(
+    "register_classes_into_sandbox_api",
+    function(classes)
+        classes.BlocklyProgrammingCommandManager = commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton()
+    end
+)
