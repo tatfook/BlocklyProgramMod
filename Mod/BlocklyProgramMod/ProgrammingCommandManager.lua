@@ -80,13 +80,16 @@ function CommandManager:reset(pageKey)
     end
 end
 function CommandManager:stop()
-    CodeHighLighting.Close()
+    if CodeHighLighting.is_show then
+        CodeHighLighting.Close()
+    end
     self.mCommandQueue:stop()
 end
 
 GameLogic.GetFilters():add_filter(
     "register_classes_into_sandbox_api",
     function(classes)
-        classes.BlocklyProgrammingCommandManager = commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton()
+        classes.BlocklyProgrammingCommandManager =
+            commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton()
     end
 )
