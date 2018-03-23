@@ -78,8 +78,10 @@ function CommandQueue:reset()
     end
     self.mCommands = nil
     self.mCurrentCommandIndex = nil
-    self.mTimer:Change()
-    self.mTimer = nil
+    if self.mTimer then
+        self.mTimer:Change()
+        self.mTimer = nil
+    end
     if self.mCompleteCondition and self.mCompleteCondition.mResetCallback then
         self.mCompleteCondition.mResetCallback()
     end
@@ -90,8 +92,10 @@ function CommandQueue:stop()
     end
     self.mCommands = nil
     self.mCurrentCommandIndex = nil
-    self.mTimer:Change()
-    self.mTimer = nil
+    if self.mTimer then
+        self.mTimer:Change()
+        self.mTimer = nil
+    end
     if self.mCompleteCondition and self.mCompleteCondition.mStopCallback then
         self.mCompleteCondition.mStopCallback()
     end
