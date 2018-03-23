@@ -1,6 +1,8 @@
 NPL.load("(gl)script/apps/Aries/Creator/Game/Entity/EntityManager.lua")
 NPL.load("(gl)script/apps/Aries/Creator/Game/Entity/EntityNPC.lua")
 NPL.load("(gl)script/apps/Aries/Creator/Game/game_logic.lua")
+NPL.load("(gl)Mod/BlocklyProgramMod/CodeHighLighting.lua")
+local CodeHighLighting = commonlib.gettable("Mod.BlocklyProgramMod.CodeHighLighting")
 local GameLogic = commonlib.gettable("MyCompany.Aries.Game.GameLogic")
 local EntityNPC = commonlib.gettable("MyCompany.Aries.Game.EntityManager.EntityNPC")
 local EntityManager = commonlib.gettable("MyCompany.Aries.Game.EntityManager")
@@ -57,8 +59,6 @@ function CommandManager:run(code)
     )
     if not self.mInvalidatePageKeys[page_key] and self.mCommandQueue:setPageKey(page_key) then
         code = string.sub(code, pos_start + 1)
-        NPL.load("(gl)Mod/BlocklyProgramMod/CodeHighLighting.lua")
-        local CodeHighLighting = commonlib.gettable("Mod.BlocklyProgramMod.CodeHighLighting")
         CodeHighLighting.ShowPage()
         local code_highLight = CodeHighLighting.parse(code)
         local run_code = "NPL.load('(gl)Mod/BlocklyProgramMod/ProgrammingAPI.lua');\r\n"
