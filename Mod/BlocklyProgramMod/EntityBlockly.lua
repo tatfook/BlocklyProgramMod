@@ -32,6 +32,9 @@ local function _onCommandQueueCompleteSucceed(entity)
         entity:SetLastCommandResult(15)
         entity:SetLastCommandResult()
     end
+    NPL.load("(gl)Mod/BlocklyProgramMod/StopButton.lua")
+    local StopButton = commonlib.gettable("Mod.BlocklyProgramMod.StopButton")
+    StopButton.close()
 end
 
 function Entity:ctor()
