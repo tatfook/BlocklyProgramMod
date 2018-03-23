@@ -40,8 +40,8 @@ end
 function CommandManager:getEntity()
     return self.mEntity
 end
-function CommandManager:setCompleteCondition(completeConditionFunction, completeCallback, resetCallback)
-    self.mCommandQueue:setCompleteCondition(completeConditionFunction, completeCallback, resetCallback)
+function CommandManager:setCompleteCondition(completeConditionFunction, completeCallback, resetCallback, stopCallback)
+    self.mCommandQueue:setCompleteCondition(completeConditionFunction, completeCallback, resetCallback, stopCallback)
 end
 function CommandManager:getCompleteCondition()
     return self.mCommandQueue:getCompleteCondition()
@@ -70,6 +70,9 @@ function CommandManager:run(code)
         if err then
             echo(err)
         end
+        NPL.load("(gl)Mod/BlocklyProgramMod/StopButton.lua")
+        local StopButton = commonlib.gettable("Mod.BlocklyProgramMod.StopButton")
+        StopButton.showPage()
         func()
     end
 end
@@ -78,6 +81,10 @@ function CommandManager:reset(pageKey)
         CodeHighLighting.Close()
         self.mCommandQueue:reset()
     end
+end
+function CommandManager:stop()
+    CodeHighLighting.Close()
+    self.mCommandQueue:stop()
 end
 
 GameLogic.GetFilters():add_filter(

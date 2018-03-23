@@ -61,11 +61,12 @@ function CommandQueue:frameMove()
         current_command:frameMove()
     end
 end
-function CommandQueue:setCompleteCondition(completeConditionFunction, completeCallback, resetCallback)
+function CommandQueue:setCompleteCondition(completeConditionFunction, completeCallback, resetCallback, stopCallback)
     self.mCompleteCondition = {
         mCompleteConditionFunction = completeConditionFunction,
         mCompleteCallback = completeCallback,
-        mResetCallback = resetCallback
+        mResetCallback = resetCallback,
+        mStopCallback = stopCallback
     }
 end
 function CommandQueue:getCompleteCondition()
@@ -81,6 +82,18 @@ function CommandQueue:reset()
     self.mTimer = nil
     if self.mCompleteCondition and self.mCompleteCondition.mResetCallback then
         self.mCompleteCondition.mResetCallback()
+    end
+end
+function CommandQueue:stop()
+    if self.mCurrentCommandIndex and self.mCommands[self.mCurrentCommandIndex] then
+        self.mCommands[self.mCurrentCommandIndex]:stop()
+    end
+    self.mCommands = nil
+    self.mCurrentCommandIndex = nil
+    self.mTimer:Change()
+    self.mTimer = nil
+    if self.mCompleteCondition and self.mCompleteCondition.mStopCallback then
+        self.mCompleteCondition.mStopCallback()
     end
 end
 function CommandQueue:setPageKey(key)

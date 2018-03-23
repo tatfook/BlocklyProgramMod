@@ -1,0 +1,29 @@
+<!-- "script/Seer/GuidePicture.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <pe:mcml>
+        <script refresh="false" type="text/npl"  src="StopButton.lua"><![CDATA[
+    NPL.load("(gl)Mod/BlocklyProgramMod/ProgrammingCommandManager.lua");
+    local CommandManager=commonlib.gettable("Mod.BlocklyProgramMod.ProgrammingCommandManager").singleton();
+    local page = document:GetPageCtrl();
+    Mod.BlocklyProgramMod.StopButton.Init();
+    function click()
+        CommandManager:stop()
+        Mod.BlocklyProgramMod.StopButton.close()
+    end
+        ]]></script>
+        <pe:container name="progress_wnd" visible='true' style="background:;margin-left:-542px;margin-top:-316px;width:1084px;height:632px;" alignment="_ct">
+            <img name="picture" style="position:relative;background:;margin-left:0px;margin-top:0px;width:1084px;height:632px;" />
+            <input type="button" name="next" value="" onclick="click" style="position:absolute;margin-left:640px;margin-top:530px;" />
+  </pe:container>
+    </pe:mcml>
+</body>
+
+</html>
