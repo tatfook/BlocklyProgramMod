@@ -70,9 +70,6 @@ function CommandManager:run(code)
         if err then
             echo(err)
         end
-        NPL.load("(gl)Mod/BlocklyProgramMod/StopButton.lua")
-        local StopButton = commonlib.gettable("Mod.BlocklyProgramMod.StopButton")
-        StopButton.showPage()
         func()
     end
 end

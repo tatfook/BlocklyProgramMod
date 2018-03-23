@@ -25,7 +25,9 @@ Entity.disable_auto_stop_time = true
 -- Entity.framemove_interval = 0.01;
 
 local function _onCommandQueueCompleteSucceed(entity)
-    echo("devilwalk--------------------------------------------------debug:EntityBlockly.lua:_onCommandQueueCompleteSucceed")
+    echo(
+        "devilwalk--------------------------------------------------debug:EntityBlockly.lua:_onCommandQueueCompleteSucceed"
+    )
     if not entity.mIgnoreOutput then
         entity:SetLastCommandResult(15)
         entity:SetLastCommandResult()
@@ -82,6 +84,9 @@ function Entity:ExecuteCommand(entityPlayer, bIgnoreNeuronActivation, bIgnoreOut
 end
 
 function Entity:execute(entityPlayer, bIgnoreNeuronActivation, bIgnoreOutput, addr)
+    NPL.load("(gl)Mod/BlocklyProgramMod/StopButton.lua")
+    local StopButton = commonlib.gettable("Mod.BlocklyProgramMod.StopButton")
+    StopButton.showPage()
     self:OpenBlocklyInBrowser(addr)
     if self.mProgrammingCommandQueue then
         self.mProgrammingCommandQueue:RemoveEventListener("CompleteSucceed", _onCommandQueueCompleteSucceed, self)
