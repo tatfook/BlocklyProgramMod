@@ -61,6 +61,20 @@
         for (var i = 0; i < function_array.length; i++) {
           string_code += function_array[i];
         }
+        var temp = string_code;
+        string_code = "";
+        while (temp.indexOf("\r") >= 0) {
+          string_code = string_code + temp.substring(0, temp.indexOf("\r")) + "\\r";
+          var temp = temp.substring(temp.indexOf("\r") + 1);
+        }
+        string_code = string_code + temp;
+        temp = string_code;
+        string_code = "";
+        while (temp.indexOf("\n") >= 0) {
+          string_code = string_code + temp.substring(0, temp.indexOf("\n")) + "\\n";
+          var temp = temp.substring(temp.indexOf("\n") + 1);
+        }
+        string_code = string_code + temp;
         document.getElementById('LuaCode').value = string_code.valueOf();
         string_code = gPageKey + "\\n" + string_code;
         string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/RunBlocklyCode ' + string_code + '")';
