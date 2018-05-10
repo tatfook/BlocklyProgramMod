@@ -11,6 +11,7 @@
 ]]
 
 NPL.load("(gl)Mod/BlocklyProgramMod/filters.lua");
+NPL.load("(gl)script/ide/EventDispatcher.lua");
 local Filters = commonlib.gettable("Mod.BlocklyProgramMod.Filters");
 
 local BlocklyProgramMod = commonlib.inherit(commonlib.gettable("Mod.ModBase"),commonlib.gettable("Mod.BlocklyProgramMod"));
@@ -32,6 +33,7 @@ end
 
 function BlocklyProgramMod:init()
     LOG.std(nil, "info", "BlocklyProgramMod", "plugin initialized");
+    self.mEventSystem=commonlib.EventSystem:new();
     Filters.Install();
     
     -- register a new block item, id < 10512 is internal items, which is not recommended to modify. 
@@ -84,4 +86,16 @@ function BlocklyProgramMod:OnLeaveWorld()
 end
 
 function BlocklyProgramMod:OnDestroy()
+end
+
+function BlocklyProgramMod:handleMouseEvent(event)
+    --echo("devilwalk----------------------------debug:main.lua:BlocklyProgramMod:handleMouseEvent:event:")
+    --echo(event);
+    self.mEventSystem:DispatchEventByType("handleMouseEvent",event);
+end
+
+function BlocklyProgramMod:handleKeyEvent(event)
+    --echo("devilwalk----------------------------debug:main.lua:BlocklyProgramMod:handleKeyEvent:event:")
+    --echo(event);
+    self.mEventSystem:DispatchEventByType("handleKeyEvent",event);
 end

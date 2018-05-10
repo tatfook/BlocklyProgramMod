@@ -3,8 +3,13 @@ Blockly.Blocks['ParaCraft_Start'] =
     init: function () {
       this.jsonInit({
         "type": "ParaCraft_Start",
-        "message0": "active",
-        "nextStatement": null,
+        "message0": "active %1",
+        "args0": [
+          {
+            "type": "input_statement",
+            "name": "statement"
+          }
+        ],
         "colour": 210,
         "tooltip": "",
         "helpUrl": ""
@@ -134,7 +139,7 @@ Blockly.Blocks['ParaCraft_OnKeyPressed'] =
     init: function () {
       this.jsonInit({
         "type": "ParaCraft_OnKeyPressed",
-        "message0": "when %1 key pressed",
+        "message0": "when %1 key pressed %2",
         "args0": [
           {
             "type": "field_dropdown",
@@ -157,9 +162,12 @@ Blockly.Blocks['ParaCraft_OnKeyPressed'] =
                 "D"
               ]
             ]
+          },
+          {
+            "type": "input_statement",
+            "name": "statement"
           }
         ],
-        "nextStatement": null,
         "colour": 230,
         "tooltip": "",
         "helpUrl": ""
@@ -171,8 +179,13 @@ Blockly.Blocks['ParaCraft_OnClick'] =
     init: function () {
       this.jsonInit({
         "type": "ParaCraft_OnClick",
-        "message0": "when this npc clicked",
-        "nextStatement": null,
+        "message0": "when this npc clicked %1",
+        "args0": [
+          {
+            "type": "input_statement",
+            "name": "statement"
+          }
+        ],
         "colour": 230,
         "tooltip": "",
         "helpUrl": ""
@@ -184,12 +197,16 @@ Blockly.Blocks['ParaCraft_OnEvent'] =
     init: function () {
       this.jsonInit({
         "type": "ParaCraft_OnEvent",
-        "message0": "when I receive %1",
+        "message0": "when I receive %1 %2",
         "args0": [
           {
             "type": "field_input",
             "name": "event",
             "text": "event"
+          },
+          {
+            "type": "input_statement",
+            "name": "statement"
           }
         ],
         "nextStatement": null,

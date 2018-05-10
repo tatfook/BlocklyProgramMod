@@ -43,24 +43,25 @@
       }
       function saveLuaCode() {
         var code = Blockly.Lua.workspaceToCode(gWorkSpace);
+        document.getElementById('LuaCode_Orgin').value = code.valueOf();
         var string_code = new String(code);
-        var function_array = new Array();
-        while (string_code.indexOf("function") >= 0) {
-          var function_start = string_code.indexOf("function");
-          var function_end = string_code.indexOf("\n\n");
-          if (function_end >= 0) {
-            function_array.push(string_code.substring(0, function_end + 1) + "end);\n\n");
-            string_code = string_code.substring(function_end + 2);
-          }
-          else {
-            function_array.push(string_code + "end);\n\n");
-            string_code = "";
-          }
-        }
-        string_code = "";
-        for (var i = 0; i < function_array.length; i++) {
-          string_code += function_array[i];
-        }
+        // var function_array = new Array();
+        // while (string_code.indexOf("function") >= 0) {
+        //   var function_start = string_code.indexOf("function");
+        //   var function_end = string_code.indexOf("\n\n");
+        //   if (function_end >= 0) {
+        //     function_array.push(string_code.substring(0, function_end + 1) + "end);\n\n");
+        //     string_code = string_code.substring(function_end + 2);
+        //   }
+        //   else {
+        //     function_array.push(string_code + "end);\n\n");
+        //     string_code = "";
+        //   }
+        // }
+        // string_code = "";
+        // for (var i = 0; i < function_array.length; i++) {
+        //   string_code += function_array[i];
+        // }
         var temp = string_code;
         string_code = "";
         while (temp.indexOf("\r") >= 0) {
@@ -113,11 +114,38 @@
 </head>
 
 <body onload="start()">
-  <button id="Save" onclick="blockly_onClickSave()">保存</button>
-  <textarea id="LuaCode" style="height: 400px; width: 400px;">实时lua代码</textarea>
-  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <div>
+    <textarea cols="20" style="height:40px; width:150px;">Virtual file name</textarea>
+    <button id="Save" onclick="blockly_onClickSave()">保存</button>
+    <button id="Open" onclick="">打开...</button>
+  </div>  
+  <div id="blocklyDiv" style="height: 480px; width: 600px;">
   <xml id="toolbox" style="display: none">
-    <category name="Logic">
+    <category name="Motion">
+      <block type="ParaCraft_Move"></block>
+      <block type="ParaCraft_Turn"></block>
+      <block type="ParaCraft_Goto"></block>
+      <block type="ParaCraft_SetPosition"></block>
+    </category>
+    <category name="Events">
+      <block type="ParaCraft_Start"></block>
+      <block type="ParaCraft_OnKeyPressed"></block>
+      <block type="ParaCraft_OnClick"></block>
+      <block type="ParaCraft_OnEvent"></block>
+      <block type="ParaCraft_SendEvent"></block>
+      <block type="ParaCraft_CallEvent"></block>
+    </category>
+    <category name="Looks">
+      <block type="ParaCraft_Say"></block>
+      <block type="ParaCraft_Show"></block>
+      <block type="ParaCraft_Hide"></block>
+      <block type="ParaCraft_SetTime"></block>
+      <block type="ParaCraft_SetAnimation"></block>
+      <block type="ParaCraft_SetSize"></block>
+    </category>
+    <category name="Control">
+      <block type="ParaCraft_Wait"></block>
+      <block type="ParaCraft_Stop"></block>
       <category name="If">
         <block type="controls_if"></block>
         <block type="controls_if">
@@ -134,39 +162,51 @@
         <block type="logic_boolean"></block>
         <block type="logic_null"></block>
         <block type="logic_ternary"></block>
+      </category>    
+      <category name="Loops">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <field name="VAR">i</field>
+          <value name="FROM">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="TO">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+          <value name="BY">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
       </category>
     </category>
-    <category name="Loops">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <block type="math_number">
-            <field name="NUM">10</field>
-          </block>
-        </value>
-      </block>
-      <block type="controls_whileUntil"></block>
-      <block type="controls_for">
-        <field name="VAR">i</field>
-        <value name="FROM">
-          <block type="math_number">
-            <field name="NUM">1</field>
-          </block>
-        </value>
-        <value name="TO">
-          <block type="math_number">
-            <field name="NUM">10</field>
-          </block>
-        </value>
-        <value name="BY">
-          <block type="math_number">
-            <field name="NUM">1</field>
-          </block>
-        </value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
+    <category name="Sound">
+      <block type="ParaCraft_PlaySound"></block>
     </category>
-    <category name="Math">
+    <category name="Sensing">
+      <block type="ParaCraft_AskAndWait"></block>
+      <block type="ParaCraft_Answer"></block>
+      <block type="ParaCraft_IsMouseDown"></block>
+      <block type="ParaCraft_IsKeyPressed"></block>
+      <block type="ParaCraft_GetMousePosition"></block>
+      <block type="ParaCraft_Timer"></block>
+      <block type="ParaCraft_ResetTimer"></block>
+    </category>
+    <category name="Operators">
       <block type="math_number"></block>
       <block type="math_arithmetic"></block>
       <block type="math_single"></block>
@@ -202,256 +242,56 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="Lists">
-      <block type="lists_create_empty"></block>
-      <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM">
-          <block type="math_number">
-            <field name="NUM">5</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf"></block>
-      <block type="lists_getIndex"></block>
-      <block type="lists_setIndex"></block>
-    </category>
+    <category name="Data">
+      <category name="Lists">
+        <block type="lists_create_empty"></block>
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat">
+          <value name="NUM">
+            <block type="math_number">
+              <field name="NUM">5</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf"></block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+      </category>
     <category name="Variables" custom="VARIABLE"></category>
-    <category name="Functions" custom="PROCEDURE"></category>
-    <sep></sep>
-    <category name="Library" expanded="true">
-      <category name="Randomize">
-        <block type="procedures_defnoreturn">
-          <mutation>
-            <arg name="list"></arg>
-          </mutation>
-          <field name="NAME">randomize</field>
-          <statement name="STACK">
-            <block type="controls_for" inline="true">
-              <field name="VAR">x</field>
-              <value name="FROM">
-                <block type="math_number">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-              <value name="TO">
-                <block type="lists_length" inline="false">
-                  <value name="VALUE">
-                    <block type="variables_get">
-                      <field name="VAR">list</field>
-                    </block>
-                  </value>
-                </block>
-              </value>
-              <value name="BY">
-                <block type="math_number">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-              <statement name="DO">
-                <block type="variables_set" inline="false">
-                  <field name="VAR">y</field>
-                  <value name="VALUE">
-                    <block type="math_random_int" inline="true">
-                      <value name="FROM">
-                        <block type="math_number">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>
-                      <value name="TO">
-                        <block type="lists_length" inline="false">
-                          <value name="VALUE">
-                            <block type="variables_get">
-                              <field name="VAR">list</field>
-                            </block>
-                          </value>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="variables_set" inline="false">
-                      <field name="VAR">temp</field>
-                      <value name="VALUE">
-                        <block type="lists_getIndex" inline="true">
-                          <mutation statement="false" at="true"></mutation>
-                          <field name="MODE">GET</field>
-                          <field name="WHERE">FROM_START</field>
-                          <value name="AT">
-                            <block type="variables_get">
-                              <field name="VAR">y</field>
-                            </block>
-                          </value>
-                          <value name="VALUE">
-                            <block type="variables_get">
-                              <field name="VAR">list</field>
-                            </block>
-                          </value>
-                        </block>
-                      </value>
-                      <next>
-                        <block type="lists_setIndex" inline="false">
-                          <value name="AT">
-                            <block type="variables_get">
-                              <field name="VAR">y</field>
-                            </block>
-                          </value>
-                          <value name="LIST">
-                            <block type="variables_get">
-                              <field name="VAR">list</field>
-                            </block>
-                          </value>
-                          <value name="TO">
-                            <block type="lists_getIndex" inline="true">
-                              <mutation statement="false" at="true"></mutation>
-                              <field name="MODE">GET</field>
-                              <field name="WHERE">FROM_START</field>
-                              <value name="AT">
-                                <block type="variables_get">
-                                  <field name="VAR">x</field>
-                                </block>
-                              </value>
-                              <value name="VALUE">
-                                <block type="variables_get">
-                                  <field name="VAR">list</field>
-                                </block>
-                              </value>
-                            </block>
-                          </value>
-                          <next>
-                            <block type="lists_setIndex" inline="false">
-                              <value name="AT">
-                                <block type="variables_get">
-                                  <field name="VAR">x</field>
-                                </block>
-                              </value>
-                              <value name="LIST">
-                                <block type="variables_get">
-                                  <field name="VAR">list</field>
-                                </block>
-                              </value>
-                              <value name="TO">
-                                <block type="variables_get">
-                                  <field name="VAR">temp</field>
-                                </block>
-                              </value>
-                            </block>
-                          </next>
-                        </block>
-                      </next>
-                    </block>
-                  </next>
-                </block>
-              </statement>
-            </block>
-          </statement>
-        </block>
-      </category>
-      <category name="Jabberwocky">
-        <block type="text_print">
-          <value name="TEXT">
-            <block type="text">
-              <field name="TEXT">'Twas brillig, and the slithy toves</field>
-            </block>
-          </value>
-          <next>
-            <block type="text_print">
-              <value name="TEXT">
-                <block type="text">
-                  <field name="TEXT"> Did gyre and gimble in the wabe:</field>
-                </block>
-              </value>
-              <next>
-                <block type="text_print">
-                  <value name="TEXT">
-                    <block type="text">
-                      <field name="TEXT">All mimsy were the borogroves,</field>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="text_print">
-                      <value name="TEXT">
-                        <block type="text">
-                          <field name="TEXT"> And the mome raths outgrabe.</field>
-                        </block>
-                      </value>
-                    </block>
-                  </next>
-                </block>
-              </next>
-            </block>
-          </next>
-        </block>
-        <block type="text_print">
-          <value name="TEXT">
-            <block type="text">
-              <field name="TEXT">"Beware the Jabberwock, my son!</field>
-            </block>
-          </value>
-          <next>
-            <block type="text_print">
-              <value name="TEXT">
-                <block type="text">
-                  <field name="TEXT"> The jaws that bite, the claws that catch!</field>
-                </block>
-              </value>
-              <next>
-                <block type="text_print">
-                  <value name="TEXT">
-                    <block type="text">
-                      <field name="TEXT">Beware the Jubjub bird, and shun</field>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="text_print">
-                      <value name="TEXT">
-                        <block type="text">
-                          <field name="TEXT"> The frumious Bandersnatch!"</field>
-                        </block>
-                      </value>
-                    </block>
-                  </next>
-                </block>
-              </next>
-            </block>
-          </next>
-        </block>
-      </category>
-      <category name="ParaCraft">
-        <block type="ParaCraft_Start"></block>
-        <block type="ParaCraft_Move"></block>
-        <block type="ParaCraft_Turn"></block>
-        <block type="ParaCraft_Goto"></block>
-        <block type="ParaCraft_SetPosition"></block>
-        <block type="ParaCraft_OnKeyPressed"></block>
-        <block type="ParaCraft_OnClick"></block>
-        <block type="ParaCraft_OnEvent"></block>
-        <block type="ParaCraft_SendEvent"></block>
-        <block type="ParaCraft_CallEvent"></block>
-        <block type="ParaCraft_Say"></block>
-        <block type="ParaCraft_Show"></block>
-        <block type="ParaCraft_Hide"></block>
-        <block type="ParaCraft_SetTime"></block>
-        <block type="ParaCraft_SetAnimation"></block>
-        <block type="ParaCraft_SetSize"></block>
-        <block type="ParaCraft_Wait"></block>
-        <block type="ParaCraft_Stop"></block>
-        <block type="ParaCraft_PlaySound"></block>
-        <block type="ParaCraft_AskAndWait"></block>
-        <block type="ParaCraft_Answer"></block>
-        <block type="ParaCraft_IsMouseDown"></block>
-        <block type="ParaCraft_IsKeyPressed"></block>
-        <block type="ParaCraft_GetMousePosition"></block>
-        <block type="ParaCraft_Timer"></block>
-        <block type="ParaCraft_ResetTimer"></block>
-        <block type="ParaCraft_DestroyBlock"></block>
-      </category>
+    </category>
+    <category name="Private Custom Functions" custom="PROCEDURE">
     </category>
   </xml>
+
+
   <xml id="toolbox2" style="display: none">
-    <category name="Logic">
+    <category name="Motion">
+      <block type="ParaCraft_Move"></block>
+      <block type="ParaCraft_Turn"></block>
+      <block type="ParaCraft_Goto"></block>
+      <block type="ParaCraft_SetPosition"></block>
+    </category>
+    <category name="Events">
+      <block type="ParaCraft_Start" disabled="true"></block>
+      <block type="ParaCraft_OnKeyPressed"></block>
+      <block type="ParaCraft_OnClick"></block>
+      <block type="ParaCraft_OnEvent"></block>
+      <block type="ParaCraft_SendEvent"></block>
+      <block type="ParaCraft_CallEvent"></block>
+    </category>
+    <category name="Looks">
+      <block type="ParaCraft_Say"></block>
+      <block type="ParaCraft_Show"></block>
+      <block type="ParaCraft_Hide"></block>
+      <block type="ParaCraft_SetTime"></block>
+      <block type="ParaCraft_SetAnimation"></block>
+      <block type="ParaCraft_SetSize"></block>
+    </category>
+    <category name="Control">
+      <block type="ParaCraft_Wait"></block>
+      <block type="ParaCraft_Stop"></block>
       <category name="If">
         <block type="controls_if"></block>
         <block type="controls_if">
@@ -468,39 +308,51 @@
         <block type="logic_boolean"></block>
         <block type="logic_null"></block>
         <block type="logic_ternary"></block>
+      </category>    
+      <category name="Loops">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <field name="VAR">i</field>
+          <value name="FROM">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="TO">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+          <value name="BY">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
       </category>
     </category>
-    <category name="Loops">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <block type="math_number">
-            <field name="NUM">10</field>
-          </block>
-        </value>
-      </block>
-      <block type="controls_whileUntil"></block>
-      <block type="controls_for">
-        <field name="VAR">i</field>
-        <value name="FROM">
-          <block type="math_number">
-            <field name="NUM">1</field>
-          </block>
-        </value>
-        <value name="TO">
-          <block type="math_number">
-            <field name="NUM">10</field>
-          </block>
-        </value>
-        <value name="BY">
-          <block type="math_number">
-            <field name="NUM">1</field>
-          </block>
-        </value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
+    <category name="Sound">
+      <block type="ParaCraft_PlaySound"></block>
     </category>
-    <category name="Math">
+    <category name="Sensing">
+      <block type="ParaCraft_AskAndWait"></block>
+      <block type="ParaCraft_Answer"></block>
+      <block type="ParaCraft_IsMouseDown"></block>
+      <block type="ParaCraft_IsKeyPressed"></block>
+      <block type="ParaCraft_GetMousePosition"></block>
+      <block type="ParaCraft_Timer"></block>
+      <block type="ParaCraft_ResetTimer"></block>
+    </category>
+    <category name="Operators">
       <block type="math_number"></block>
       <block type="math_arithmetic"></block>
       <block type="math_single"></block>
@@ -536,254 +388,33 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="Lists">
-      <block type="lists_create_empty"></block>
-      <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM">
-          <block type="math_number">
-            <field name="NUM">5</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf"></block>
-      <block type="lists_getIndex"></block>
-      <block type="lists_setIndex"></block>
-    </category>
+    <category name="Data">
+      <category name="Lists">
+        <block type="lists_create_empty"></block>
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat">
+          <value name="NUM">
+            <block type="math_number">
+              <field name="NUM">5</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf"></block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+      </category>
     <category name="Variables" custom="VARIABLE"></category>
-    <category name="Functions" custom="PROCEDURE"></category>
-    <sep></sep>
-    <category name="Library" expanded="true">
-      <category name="Randomize">
-        <block type="procedures_defnoreturn">
-          <mutation>
-            <arg name="list"></arg>
-          </mutation>
-          <field name="NAME">randomize</field>
-          <statement name="STACK">
-            <block type="controls_for" inline="true">
-              <field name="VAR">x</field>
-              <value name="FROM">
-                <block type="math_number">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-              <value name="TO">
-                <block type="lists_length" inline="false">
-                  <value name="VALUE">
-                    <block type="variables_get">
-                      <field name="VAR">list</field>
-                    </block>
-                  </value>
-                </block>
-              </value>
-              <value name="BY">
-                <block type="math_number">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-              <statement name="DO">
-                <block type="variables_set" inline="false">
-                  <field name="VAR">y</field>
-                  <value name="VALUE">
-                    <block type="math_random_int" inline="true">
-                      <value name="FROM">
-                        <block type="math_number">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>
-                      <value name="TO">
-                        <block type="lists_length" inline="false">
-                          <value name="VALUE">
-                            <block type="variables_get">
-                              <field name="VAR">list</field>
-                            </block>
-                          </value>
-                        </block>
-                      </value>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="variables_set" inline="false">
-                      <field name="VAR">temp</field>
-                      <value name="VALUE">
-                        <block type="lists_getIndex" inline="true">
-                          <mutation statement="false" at="true"></mutation>
-                          <field name="MODE">GET</field>
-                          <field name="WHERE">FROM_START</field>
-                          <value name="AT">
-                            <block type="variables_get">
-                              <field name="VAR">y</field>
-                            </block>
-                          </value>
-                          <value name="VALUE">
-                            <block type="variables_get">
-                              <field name="VAR">list</field>
-                            </block>
-                          </value>
-                        </block>
-                      </value>
-                      <next>
-                        <block type="lists_setIndex" inline="false">
-                          <value name="AT">
-                            <block type="variables_get">
-                              <field name="VAR">y</field>
-                            </block>
-                          </value>
-                          <value name="LIST">
-                            <block type="variables_get">
-                              <field name="VAR">list</field>
-                            </block>
-                          </value>
-                          <value name="TO">
-                            <block type="lists_getIndex" inline="true">
-                              <mutation statement="false" at="true"></mutation>
-                              <field name="MODE">GET</field>
-                              <field name="WHERE">FROM_START</field>
-                              <value name="AT">
-                                <block type="variables_get">
-                                  <field name="VAR">x</field>
-                                </block>
-                              </value>
-                              <value name="VALUE">
-                                <block type="variables_get">
-                                  <field name="VAR">list</field>
-                                </block>
-                              </value>
-                            </block>
-                          </value>
-                          <next>
-                            <block type="lists_setIndex" inline="false">
-                              <value name="AT">
-                                <block type="variables_get">
-                                  <field name="VAR">x</field>
-                                </block>
-                              </value>
-                              <value name="LIST">
-                                <block type="variables_get">
-                                  <field name="VAR">list</field>
-                                </block>
-                              </value>
-                              <value name="TO">
-                                <block type="variables_get">
-                                  <field name="VAR">temp</field>
-                                </block>
-                              </value>
-                            </block>
-                          </next>
-                        </block>
-                      </next>
-                    </block>
-                  </next>
-                </block>
-              </statement>
-            </block>
-          </statement>
-        </block>
-      </category>
-      <category name="Jabberwocky">
-        <block type="text_print">
-          <value name="TEXT">
-            <block type="text">
-              <field name="TEXT">'Twas brillig, and the slithy toves</field>
-            </block>
-          </value>
-          <next>
-            <block type="text_print">
-              <value name="TEXT">
-                <block type="text">
-                  <field name="TEXT"> Did gyre and gimble in the wabe:</field>
-                </block>
-              </value>
-              <next>
-                <block type="text_print">
-                  <value name="TEXT">
-                    <block type="text">
-                      <field name="TEXT">All mimsy were the borogroves,</field>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="text_print">
-                      <value name="TEXT">
-                        <block type="text">
-                          <field name="TEXT"> And the mome raths outgrabe.</field>
-                        </block>
-                      </value>
-                    </block>
-                  </next>
-                </block>
-              </next>
-            </block>
-          </next>
-        </block>
-        <block type="text_print">
-          <value name="TEXT">
-            <block type="text">
-              <field name="TEXT">"Beware the Jabberwock, my son!</field>
-            </block>
-          </value>
-          <next>
-            <block type="text_print">
-              <value name="TEXT">
-                <block type="text">
-                  <field name="TEXT"> The jaws that bite, the claws that catch!</field>
-                </block>
-              </value>
-              <next>
-                <block type="text_print">
-                  <value name="TEXT">
-                    <block type="text">
-                      <field name="TEXT">Beware the Jubjub bird, and shun</field>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="text_print">
-                      <value name="TEXT">
-                        <block type="text">
-                          <field name="TEXT"> The frumious Bandersnatch!"</field>
-                        </block>
-                      </value>
-                    </block>
-                  </next>
-                </block>
-              </next>
-            </block>
-          </next>
-        </block>
-      </category>
-      <category name="ParaCraft">
-        <block type="ParaCraft_Start" disabled="true"></block>
-        <block type="ParaCraft_Move"></block>
-        <block type="ParaCraft_Turn"></block>
-        <block type="ParaCraft_Goto"></block>
-        <block type="ParaCraft_SetPosition"></block>
-        <block type="ParaCraft_OnKeyPressed"></block>
-        <block type="ParaCraft_OnClick"></block>
-        <block type="ParaCraft_OnEvent"></block>
-        <block type="ParaCraft_SendEvent"></block>
-        <block type="ParaCraft_CallEvent"></block>
-        <block type="ParaCraft_Say"></block>
-        <block type="ParaCraft_Show"></block>
-        <block type="ParaCraft_Hide"></block>
-        <block type="ParaCraft_SetTime"></block>
-        <block type="ParaCraft_SetAnimation"></block>
-        <block type="ParaCraft_SetSize"></block>
-        <block type="ParaCraft_Wait"></block>s
-        <block type="ParaCraft_Stop"></block>
-        <block type="ParaCraft_PlaySound"></block>
-        <block type="ParaCraft_AskAndWait"></block>
-        <block type="ParaCraft_Answer"></block>
-        <block type="ParaCraft_IsMouseDown"></block>
-        <block type="ParaCraft_IsKeyPressed"></block>
-        <block type="ParaCraft_GetMousePosition"></block>
-        <block type="ParaCraft_Timer"></block>
-        <block type="ParaCraft_ResetTimer"></block>
-        <block type="ParaCraft_DestroyBlock"></block>
-      </category>
+    </category>
+    <category name="Private Custom Functions" custom="PROCEDURE">
     </category>
   </xml>
+  </div>
+  <div>
+    <textarea cols="20" id="LuaCode" style="height:200px; width:600px;">实时lua代码</textarea>
+    <textarea cols="20" id="LuaCode_Orgin" style="height:200px; width:600px;">实时lua代码</textarea>
+  </div>
 </body>
 
 </html>
