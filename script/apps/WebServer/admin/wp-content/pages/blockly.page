@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Blockly Test</title>
+  <?npl
+  wp_enqueue_script("jquery", "/wp-includes/js/jquery/jquery.min.js", nil, "1.11.1");
+  ?>
+    <script src="/wp-includes/js/blockly/blockly_compressed.js"></script>
+    <script src="/wp-includes/js/blockly/blocks_compressed.js"></script>
+    <script src="/wp-includes/js/blockly/lua_compressed.js"></script>
+    <script src="/wp-includes/js/blockly/msg/js/en.js"></script>
+    <script src="/wp-includes/js/BlockParaCraft_Layout.js"></script>
+    <script src="/wp-includes/js/BlockParaCraft_Lua.js"></script>
+    <script>
+      var gDate = new Date();
+      var gPageKey = gDate.getTime();
+      var gWorkSpace;
+      var gParaCraft_Start;
+      function onWorkSpaceEvent(event) {
+        if (event.type == Blockly.Events.CREATE) {
+          var block = gWorkSpace.getBlockById(event.blockId);
+          if (block.type == "ParaCraft_Start") {
+            gParaCraft_Start = event.blockId;
+            gWorkSpace.updateToolbox(document.getElementById('toolbox2'));
+          }
+        }
+        else if (event.type == Blockly.Events.DELETE) {
+          if (event.blockId == gParaCraft_Start) {
+            gWorkSpace.updateToolbox(document.getElementById('toolbox'));
+          }
+        }
+      }
+      function start() {
+        gWorkSpace = Blockly.inject('blocklyDiv',
+          { toolbox: document.getElementById('toolbox') });
+        gWorkSpace.addChangeListener(onWorkSpaceEvent);
+      }
+      function reset() {
+        var string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/BlocklyReset ' + gPageKey + '")';
+        $.post("/ajax/console?action=runcode", { text: string_code.valueOf() });
+      }
+      function saveLuaCode() {
+        var code = Blockly.Lua.workspaceToCode(gWorkSpace);
+        document.getElementById('LuaCode_Orgin').value = code.valueOf();
+        var string_code = new String(code);
+        // var function_array = new Array();
+        // while (string_code.indexOf("function") >= 0) {
+        //   var function_start = string_code.indexOf("function");
+        //   var function_end = string_code.indexOf("\n\n");
+        //   if (function_end >= 0) {
+        //     function_array.push(string_code.substring(0, function_end + 1) + "end);\n\n");
+        //     string_code = string_code.substring(function_end + 2);
+        //   }
+        //   else {
+        //     function_array.push(string_code + "end);\n\n");
+        //     string_code = "";
+        //   }
+        // }
+        // string_code = "";
+        // for (var i = 0; i < function_array.length; i++) {
+        //   string_code += function_array[i];
+        // }
+        var temp = string_code;
+        string_code = "";
+        while (temp.indexOf("\r") >= 0) {
+          string_code = string_code + temp.substring(0, temp.indexOf("\r")) + "\\r";
+          var temp = temp.substring(temp.indexOf("\r") + 1);
+        }
+        string_code = string_code + temp;
+        temp = string_code;
+        string_code = "";
+        while (temp.indexOf("\n") >= 0) {
+          string_code = string_code + temp.substring(0, temp.indexOf("\n")) + "\\n";
+          var temp = temp.substring(temp.indexOf("\n") + 1);
+        }
+        string_code = string_code + temp;
+        document.getElementById('LuaCode').value = string_code.valueOf();
+        string_code = gPageKey + "\\n" + string_code;
+        string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/RunBlocklyCode ' + string_code + '")';
+        $.post("/ajax/console?action=runcode", { text: string_code.valueOf() });
+
+
+        // var start_index = string_code.indexOf("ParaCraft_Start;");
+        // if (start_index >= 0) {
+        //   string_code = string_code.substring(start_index + 16);
+        //   var end_index = string_code.indexOf("\n\n");
+        //   if (end_index >= 0) { string_code = string_code.substring(0, end_index + 1); }
+        //   var temp = string_code;
+        //   string_code = "";
+        //   while (temp.indexOf("\r") >= 0) {
+        //     string_code = string_code + temp.substring(0, temp.indexOf("\r")) + "\\r";
+        //     var temp = temp.substring(temp.indexOf("\r") + 1);
+        //   }
+        //   string_code = string_code + temp;
+        //   temp = string_code;
+        //   string_code = "";
+        //   while (temp.indexOf("\n") >= 0) {
+        //     string_code = string_code + temp.substring(0, temp.indexOf("\n")) + "\\n";
+        //     var temp = temp.substring(temp.indexOf("\n") + 1);
+        //   }
+        //   string_code = string_code + temp;
+        //   document.getElementById('LuaCode').value = string_code.valueOf();
+        //   string_code = gPageKey + "\\n" + string_code;
+        //   string_code = 'local CommandManager = commonlib.gettable("MyCompany.Aries.Game.CommandManager")\r\nCommandManager:RunCommand("/RunBlocklyCode ' + string_code + '")';
+        //   $.post("/ajax/console?action=runcode", { text: string_code.valueOf() });
+        // }
+      }
+      function blockly_onClickSave() {
+        saveLuaCode();
+      }
+    </script>
+</head>
+
+<body onload="start()">
+  <div>
+    <textarea cols="20" style="height:40px; width:150px;">Virtual file name</textarea>
+    <button id="Save" onclick="blockly_onClickSave()">保存</button>
+    <button id="Open" onclick="">打开...</button>
+  </div>  
+  <div id="blocklyDiv" style="height: 480px; width: 600px;">
+  <xml id="toolbox" style="display: none">
+    <category name="Motion">
+      <block type="ParaCraft_Move"></block>
+      <block type="ParaCraft_Turn"></block>
+      <block type="ParaCraft_Goto"></block>
+      <block type="ParaCraft_SetPosition"></block>
+    </category>
+    <category name="Events">
+      <block type="ParaCraft_Start"></block>
+      <block type="ParaCraft_OnKeyPressed"></block>
+      <block type="ParaCraft_OnClick"></block>
+      <block type="ParaCraft_OnEvent"></block>
+      <block type="ParaCraft_SendEvent"></block>
+      <block type="ParaCraft_CallEvent"></block>
+    </category>
+    <category name="Looks">
+      <block type="ParaCraft_Say"></block>
+      <block type="ParaCraft_Show"></block>
+      <block type="ParaCraft_Hide"></block>
+      <block type="ParaCraft_SetTime"></block>
+      <block type="ParaCraft_SetAnimation"></block>
+      <block type="ParaCraft_SetSize"></block>
+    </category>
+    <category name="Control">
+      <block type="ParaCraft_Wait"></block>
+      <block type="ParaCraft_Stop"></block>
+      <category name="If">
+        <block type="controls_if"></block>
+        <block type="controls_if">
+          <mutation else="1"></mutation>
+        </block>
+        <block type="controls_if">
+          <mutation elseif="1" else="1"></mutation>
+        </block>
+      </category>
+      <category name="Boolean">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+      </category>    
+      <category name="Loops">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <field name="VAR">i</field>
+          <value name="FROM">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="TO">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+          <value name="BY">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
+      </category>
+    </category>
+    <category name="Sound">
+      <block type="ParaCraft_PlaySound"></block>
+    </category>
+    <category name="Sensing">
+      <block type="ParaCraft_AskAndWait"></block>
+      <block type="ParaCraft_Answer"></block>
+      <block type="ParaCraft_IsMouseDown"></block>
+      <block type="ParaCraft_IsKeyPressed"></block>
+      <block type="ParaCraft_GetMousePosition"></block>
+      <block type="ParaCraft_Timer"></block>
+      <block type="ParaCraft_ResetTimer"></block>
+    </category>
+    <category name="Operators">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <category name="Data">
+      <category name="Lists">
+        <block type="lists_create_empty"></block>
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat">
+          <value name="NUM">
+            <block type="math_number">
+              <field name="NUM">5</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf"></block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+      </category>
+    <category name="Variables" custom="VARIABLE"></category>
+    </category>
+    <category name="Private Custom Functions" custom="PROCEDURE">
+    </category>
+  </xml>
+
+
+  <xml id="toolbox2" style="display: none">
+    <category name="Motion">
+      <block type="ParaCraft_Move"></block>
+      <block type="ParaCraft_Turn"></block>
+      <block type="ParaCraft_Goto"></block>
+      <block type="ParaCraft_SetPosition"></block>
+    </category>
+    <category name="Events">
+      <block type="ParaCraft_Start" disabled="true"></block>
+      <block type="ParaCraft_OnKeyPressed"></block>
+      <block type="ParaCraft_OnClick"></block>
+      <block type="ParaCraft_OnEvent"></block>
+      <block type="ParaCraft_SendEvent"></block>
+      <block type="ParaCraft_CallEvent"></block>
+    </category>
+    <category name="Looks">
+      <block type="ParaCraft_Say"></block>
+      <block type="ParaCraft_Show"></block>
+      <block type="ParaCraft_Hide"></block>
+      <block type="ParaCraft_SetTime"></block>
+      <block type="ParaCraft_SetAnimation"></block>
+      <block type="ParaCraft_SetSize"></block>
+    </category>
+    <category name="Control">
+      <block type="ParaCraft_Wait"></block>
+      <block type="ParaCraft_Stop"></block>
+      <category name="If">
+        <block type="controls_if"></block>
+        <block type="controls_if">
+          <mutation else="1"></mutation>
+        </block>
+        <block type="controls_if">
+          <mutation elseif="1" else="1"></mutation>
+        </block>
+      </category>
+      <category name="Boolean">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+      </category>    
+      <category name="Loops">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <field name="VAR">i</field>
+          <value name="FROM">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="TO">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+          <value name="BY">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
+      </category>
+    </category>
+    <category name="Sound">
+      <block type="ParaCraft_PlaySound"></block>
+    </category>
+    <category name="Sensing">
+      <block type="ParaCraft_AskAndWait"></block>
+      <block type="ParaCraft_Answer"></block>
+      <block type="ParaCraft_IsMouseDown"></block>
+      <block type="ParaCraft_IsKeyPressed"></block>
+      <block type="ParaCraft_GetMousePosition"></block>
+      <block type="ParaCraft_Timer"></block>
+      <block type="ParaCraft_ResetTimer"></block>
+    </category>
+    <category name="Operators">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <category name="Data">
+      <category name="Lists">
+        <block type="lists_create_empty"></block>
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat">
+          <value name="NUM">
+            <block type="math_number">
+              <field name="NUM">5</field>
+            </block>
+          </value>
+        </block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf"></block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+      </category>
+    <category name="Variables" custom="VARIABLE"></category>
+    </category>
+    <category name="Private Custom Functions" custom="PROCEDURE">
+    </category>
+  </xml>
+  </div>
+  <div>
+    <textarea cols="20" id="LuaCode" style="height:200px; width:600px;">实时lua代码</textarea>
+    <textarea cols="20" id="LuaCode_Orgin" style="height:200px; width:600px;">实时lua代码</textarea>
+  </div>
+</body>
+
+</html>
