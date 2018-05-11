@@ -1,6 +1,9 @@
 Blockly.Lua['ParaCraft_Start'] = function (block) {
   // TODO: Assemble Lua into code variable.
   var statement = Blockly.Lua.statementToCode(block, 'statement') || '\n';
+  if (statement == '\n') {
+    statement = 'while true do\nAPI:doNothing();\nend\n';
+  }
   return 'API:setActive(function()\n' + statement + 'end)\n';
 };
 Blockly.Lua['ParaCraft_Move'] = function (block) {
@@ -35,7 +38,7 @@ Blockly.Lua['ParaCraft_OnKeyPressed'] = function (block) {
   var dropdown_key = block.getFieldValue('key');
   var statement = Blockly.Lua.statementToCode(block, 'statement') || '\n';
   // TODO: Assemble Lua into code variable.
-  var code = 'API:setEventFunction(\\"OnKeyPressed\\",\\"' + dropdown_key + '\\",function(API)\n' + statement + 'end)\n';
+  var code = 'API:setEventFunction(\\"OnKeyPressed\\",\\"DIK_' + dropdown_key + '\\",function(API)\n' + statement + 'end)\n';
   return code;
 };
 Blockly.Lua['ParaCraft_OnClick'] = function (block) {

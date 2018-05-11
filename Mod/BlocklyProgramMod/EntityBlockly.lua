@@ -130,12 +130,7 @@ function Entity:ExecuteCommand(entityPlayer, bIgnoreNeuronActivation, bIgnoreOut
         self.mEntity:Attach()
     end
     Entity.mCurrentExecute = self
-    self.mCoroutine =
-        coroutine.create(
-        function()
-            self.mRunCode()
-        end
-    )
+    self.mCoroutine = coroutine.create(self.mRunCode)
     coroutine.resume(self.mCoroutine)
     return ret
 end
@@ -154,13 +149,23 @@ function Entity:SaveToXMLNode(node, bSort)
     node = Entity._super.SaveToXMLNode(self, node, bSort)
     local attr = node.attr
     attr.mCode = self.mCode
+    echo(
+        "devilwalk---------------------------------debug:EntityBlockly.lua:Entity:SaveToXMLNode:attr.mCode:" ..
+            tostring(attr.mCode)
+    )
     return node
 end
 
 function Entity:LoadFromXMLNode(node)
     Entity._super.LoadFromXMLNode(self, node)
     local attr = node.attr
-    self:setCode(attr.mCode)
+    echo(
+        "devilwalk---------------------------------debug:EntityBlockly.lua:Entity:LoadFromXMLNode:attr.mCode:" ..
+            tostring(attr.mCode)
+    )
+    if attr.mCode then
+        self:setCode(attr.mCode)
+    end
 end
 
 function Entity:createAPI()
@@ -184,11 +189,12 @@ function Entity:FindNearByMovieEntity()
 end
 
 function Entity:setCode(code)
+    self.mCode = code
     local run_code =
         "NPL.load('(gl)Mod/BlocklyProgramMod/EntityBlockly.lua');\nlocal API=commonlib.gettable('MyCompany.Aries.Game.EntityManager.EntityBlockly').mCurrentExecute:createAPI();\n"
     run_code = run_code .. code
     run_code = run_code .. "API:active();\n"
-    if true then
+    if false then
         local file_handle = io.open("Mod/BlocklyProgramMod/GeneratedCode.lua", "w")
         file_handle:write(run_code)
         file_handle:close()

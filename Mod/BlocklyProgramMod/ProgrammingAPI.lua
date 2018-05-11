@@ -31,9 +31,7 @@ function API:ctor()
             self.mCommandQueue:execute()
             while self.mAlive do
                 self.mCommandQueue:frameMove()
-                if coroutine.status( self.mCoroutine ) == "running" then
-                    coroutine.yield()
-                end
+                coroutine.yield()
             end
         end
     )
@@ -42,11 +40,12 @@ end
 function API:setActive(activeFunction)
     self.active = activeFunction
 end
+function API:doNothing()
+    coroutine.yield()
+end
 function API:move(count)
     self.mCommandQueue:add(CommandFactory.create("Move", {mEntity = self.mEntity, mDistance = count}))
-    if coroutine.status( self.mParentCoroutine ) == "running" then
-        coroutine.yield()
-    end
+    coroutine.yield()
 end
 function API:turn(type)
     if type == "left" then
@@ -60,16 +59,14 @@ function API:turn(type)
         type = 0
     end
     self.mCommandQueue:add(CommandFactory.create("Turn", {mEntity = self.mEntity, mType = type}))
-    if coroutine.status( self.mParentCoroutine ) == "running" then
-        coroutine.yield()
-    end
+    coroutine.yield()
 end
 function API:setEventFunction(name, parameters, func)
     if "OnKeyPressed" == name then
         if not self.mOnKeyPressed then
             self.mOnKeyPressed = {mKeys = {}}
             self.mOnKeyPressed.mFunction = function(inst, event)
-                if event.event_type == "keyPressEvent" then
+                if event.event_type == "keyPressEvent" and inst.mOnKeyPressed.mKeys[event.keyname] then
                     local callback = inst.mOnKeyPressed.mKeys[event.keyname].mFunction
                     if callback then
                         if inst.mOnKeyPressed.mKeys[event.keyname].mAPI then
@@ -192,7 +189,5 @@ function API:postEvent(event)
 end
 function API:destroyBlock()
     self.mCommandQueue:add(CommandFactory.create("DestroyBlock", {mEntity = self.mEntity}))
-    if coroutine.status( self.mParentCoroutine ) == "running" then
-        coroutine.yield()
-    end
+    coroutine.yield()
 end
