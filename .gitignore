@@ -13,3 +13,4 @@ npl_packages
 *.zip
 *.pkg
 Debug
+script/apps/WebServer/admin/wp-includes/js/blockly

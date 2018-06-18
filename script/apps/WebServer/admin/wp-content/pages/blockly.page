@@ -6,13 +6,14 @@
   <title>Blockly Test</title>
   <?npl
   wp_enqueue_script("jquery", "/wp-includes/js/jquery/jquery.min.js", nil, "1.11.1");
+  wp_enqueue_script("blockly_compressed", "/wp-includes/js/blockly/blockly_compressed.js");
+  wp_enqueue_script("blocks_compressed", "/wp-includes/js/blockly/blocks_compressed.js");
+  wp_enqueue_script("lua_compressed", "/wp-includes/js/blockly/lua_compressed.js");
+  wp_enqueue_script("blockly_en", "/wp-includes/js/blockly/msg/js/en.js");
+  wp_enqueue_script("BlockParaCraft_Layout", "/wp-includes/js/BlockParaCraft_Layout.js");
+  wp_enqueue_script("BlockParaCraft_Lua", "/wp-includes/js/BlockParaCraft_Lua.js");
   ?>
-    <script src="/wp-includes/js/blockly/blockly_compressed.js"></script>
-    <script src="/wp-includes/js/blockly/blocks_compressed.js"></script>
-    <script src="/wp-includes/js/blockly/lua_compressed.js"></script>
-    <script src="/wp-includes/js/blockly/msg/js/en.js"></script>
-    <script src="/wp-includes/js/BlockParaCraft_Layout.js"></script>
-    <script src="/wp-includes/js/BlockParaCraft_Lua.js"></script>
+    
     <script>
       var gDate = new Date();
       var gPageKey = gDate.getTime();

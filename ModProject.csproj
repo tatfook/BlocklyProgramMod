@@ -41,12 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="script/**" />
-	<Content Include="Mod/**" />
+    <Content Include="Mod/**" />
   </ItemGroup>
   <ItemGroup>
     <None Include="InstallPackages.bat" />
     <None Include="README.md" />
     <None Include="Run.bat" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\parablockly.page" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitattributes" />
