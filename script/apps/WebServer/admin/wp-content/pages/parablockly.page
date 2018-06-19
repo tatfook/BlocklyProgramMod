@@ -14,6 +14,19 @@
 	wp_enqueue_script("BlocklyConfigSource",	"/wp-includes/js/BlocklyConfigSource.js");
 	wp_enqueue_script("BlocklyConfig",			"/wp-includes/js/BlocklyConfig.js");
 	wp_enqueue_script("BlocklyExecution",		"/wp-includes/js/BlocklyExecution.js");
+
+	local code = request:get("code");
+	if(is_ajax()) then
+		add_action('wp_ajax_runblockly', function()
+
+			NPL.load("(gl)script/apps/Aries/Creator/Game/Code/CodeBlockWindow.lua");
+			local CodeBlockWindow = commonlib.gettable("MyCompany.Aries.Game.Code.CodeBlockWindow");
+			CodeBlockWindow.Show(true);
+			CodeBlockWindow.InsertCodeAtCurrentLine(code);
+			wp_send_json({code},true);
+		end)
+		return;
+	end
   ?>
     
     <script>
@@ -25,6 +38,11 @@
         var code = Blockly.Lua.workspaceToCode(gWorkSpace);
 		var content = code.valueOf();
         document.getElementById('LuaCode_Orgin').value = content;
+
+		var url = "/ajax/parablockly?action=runblockly";
+		$.post( url, { code: content }, function( data ) {
+		  console.log( data); 
+		}, "json");
       }
     </script>
 </head>
@@ -34,17 +52,18 @@
     <button onclick="onRun()">运行</button>
   </div>  
   <div id="blocklyDiv" style="height: 480px; width: 1024px;">
- <xml id="toolbox" style="display: none">
+<xml id="toolbox" style="display: none">
 <category name='Motion' colour='#0078d7'>
 <block type='moveForward'></block>
 <block type='turn'></block>
 <block type='turnTo'></block>
-<block type='turnTo'></block>
+<block type='turnToTarget'></block>
 <block type='move'></block>
 <block type='moveTo'></block>
 <block type='moveToTarget'></block>
 <block type='walk'></block>
 <block type='walkForward'></block>
+<block type='velocity'></block>
 <block type='bounce'></block>
 <block type='getX'></block>
 <block type='getY'></block>
@@ -63,6 +82,7 @@
 <block type='stop'></block>
 <block type='scale'></block>
 <block type='scaleTo'></block>
+<block type='focus'></block>
 <block type='getScale'></block>
 <block type='getPlayTime'></block>
 </category>
@@ -74,13 +94,13 @@
 <block type='broadcast'></block>
 <block type='broadcastAndWait'></block>
 </category>
-<category name='Control' colour='#d83b01'>
+<category name='control' colour='#d83b01'>
 <block type='wait'></block>
 <block type='repeat'></block>
 <block type='forever'></block>
 <block type='if_else'></block>
 <block type='forKeyValue'></block>
-<block type='forKeyValue'></block>
+<block type='forIndexValue'></block>
 <block type='registerCloneEvent'></block>
 <block type='clone'></block>
 <block type='delete'></block>
@@ -117,6 +137,8 @@
 </category>
 <category name='Data' colour='#459197'>
 <block type='set'></block>
+<block type='showVariable'></block>
+<block type='hideVariable'></block>
 <block type='log'></block>
 <block type='setActorValue'></block>
 <block type='getActorValue'></block>

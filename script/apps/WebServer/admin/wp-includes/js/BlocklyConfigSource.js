@@ -1,5 +1,18 @@
 ﻿Blockly.paracraft_blockly_config_source = [
   {
+      "func_description": "set(\"%s\", \"%s\")",
+      "message0": "设置全局变量%1为%2",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "也可以用_G.a",
+            "code": "_G.a = _G.a or 1\nwhile(true) do\n    _G.a = a + 1\n    set(\"a\", get(\"a\") + 1)\n    say(a)\nend\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#459197",
+      "category": "Data",
+      "type": "set",
       "arg0": [
         {
             "type": "field_input",
@@ -12,30 +25,58 @@
             "text": "hello"
         }
       ],
-      "message0": "设置全局变量%1为%2",
-      "category": "Data",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "showVariable(\"%s\")",
+      "message0": "显示全局变量%1",
+      "canRun": true,
       "examples": [
         {
-            "desc": "也可以用_G.a",
-            "code": "_G.a = _G.a or 1\nwhile(true) do\n  _G.a = a + 1\n  set(\"a\", get(\"a\") + 1)\n  say(a)\nend\n",
+            "desc": "",
+            "code": "_G.score = 1\n_G.msg = \"hello\"\nshowVariable(\"score\", \"Your Score\")\nshowVariable(\"msg\", \"\", \"#ff0000\")\nwhile(true) do\n   _G.score = _G.score + 1\n   wait(0.01)\nend\n",
             "canRun": true
         }
       ],
       "colour": "#459197",
-      "type": "set",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
+      "category": "Data",
+      "type": "showVariable",
       "arg0": [
         {
             "type": "field_input",
-            "name": "obj",
-            "text": "hello"
+            "name": "name",
+            "text": "score"
         }
       ],
-      "message0": "输出日志%1",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "hideVariable(\"%s\")",
+      "message0": "隐藏全局变量%1",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "",
+            "code": "_G.score = 1\nshowVariable(\"score\")\nwait(1);\nhideVariable(\"score\")\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#459197",
       "category": "Data",
+      "type": "hideVariable",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "name",
+            "text": "score"
+        }
+      ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "log(\"%s\")",
+      "message0": "输出日志%1",
+      "canRun": true,
       "examples": [
         {
             "desc": "查看log.txt或F11看日志",
@@ -44,11 +85,32 @@
         }
       ],
       "colour": "#459197",
+      "category": "Data",
       "type": "log",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "obj",
+            "text": "hello"
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "setActorValue(\"%s\", \"%s\")",
+      "color": "#cc0000",
+      "canRun": false,
+      "colour": "#459197",
+      "examples": [
+        {
+            "desc": "",
+            "code": "registerCloneEvent(function(name)\n    setActorValue(\"name\", name)\n    moveForward(1);\nend)\nregisterClickEvent(function()\n    local myname = getActorValue(\"name\")\n    say(\"my name is \"..myname)\nend)\nsetActorValue(\"name\", \"Default\")\nclone(\"myself\", \"Cloned\")\nsay(\"click us!\")\n",
+            "canRun": true
+        }
+      ],
+      "message0": "设置角色属性%1为%2",
+      "helpUrl": "",
+      "type": "setActorValue",
       "arg0": [
         {
             "type": "field_input",
@@ -61,31 +123,12 @@
             "text": "hello"
         }
       ],
-      "message0": "设置角色属性%1为%2",
-      "helpUrl": "",
-      "examples": [
-        {
-            "desc": "",
-            "code": "registerCloneEvent(function(name)\n    setActorValue(\"name\", name)\n    moveForward(1);\nend)\nregisterClickEvent(function()\n    local myname = getActorValue(\"name\")\n    say(\"my name is \"..myname)\nend)\nsetActorValue(\"name\", \"Default\")\nclone(\"myself\", \"Cloned\")\nsay(\"click us!\")\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#459197",
-      "category": "Data",
-      "type": "setActorValue",
-      "canRun": false,
-      "color": "#cc0000"
+      "category": "Data"
   },
   {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "key",
-            "text": "test"
-        }
-      ],
+      "func_description": "getActorValue(\"%s\")",
       "message0": "获取角色属性%1",
-      "helpUrl": "",
+      "category": "Data",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -95,11 +138,31 @@
         }
       ],
       "colour": "#459197",
+      "canRun": false,
       "type": "getActorValue",
-      "category": "Data",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "key",
+            "text": "test"
+        }
+      ]
   },
   {
+      "func_description": "say(\"%s\", %s)",
+      "message0": "说 %1 持续 %2 秒",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "",
+            "code": "say(\"Jump!\", 2)\nmove(0,1,0)\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#7abb55",
+      "category": "Looks",
+      "type": "sayAndWait",
       "arg0": [
         {
             "type": "field_input",
@@ -112,30 +175,12 @@
             "text": 2
         }
       ],
-      "message0": "说 %1 持续 %2 秒",
-      "category": "Looks",
-      "examples": [
-        {
-            "desc": "",
-            "code": "say(\"Jump!\", 2)\nmove(0,1,0)\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#7abb55",
-      "type": "sayAndWait",
-      "helpUrl": "",
-      "canRun": true
+      "helpUrl": ""
   },
   {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "text",
-            "text": "hello!"
-        }
-      ],
+      "func_description": "say(\"%s\")",
       "message0": "说 %1",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "在人物头顶说些话",
@@ -144,20 +189,21 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "say",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
             "type": "field_input",
             "name": "text",
-            "text": "Start Game!"
+            "text": "hello!"
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "tip(\"%s\")",
       "message0": "提示文字%1",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -166,29 +212,51 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "tip",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "text",
+            "text": "Start Game!"
+        }
+      ],
+      "helpUrl": ""
   },
   {
-      "colour": "#7abb55",
-      "type": "show",
-      "arg0": [],
+      "func_description": "show()",
       "message0": "显示",
-      "category": "Looks",
       "helpUrl": "",
-      "canRun": true
-  },
-  {
       "colour": "#7abb55",
-      "type": "hide",
       "arg0": [],
-      "message0": "隐藏",
-      "category": "Looks",
-      "helpUrl": "",
-      "canRun": true
+      "type": "show",
+      "canRun": true,
+      "category": "Looks"
   },
   {
+      "func_description": "hide()",
+      "message0": "隐藏",
+      "helpUrl": "",
+      "colour": "#7abb55",
+      "arg0": [],
+      "type": "hide",
+      "canRun": true,
+      "category": "Looks"
+  },
+  {
+      "func_description": "anim(%d, %d)",
+      "message0": "播放动作 %1 等待 %2 秒",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "",
+            "code": "anim(4)\nmove(3, 0, 0, 2)\nanim(0)\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#7abb55",
+      "category": "Looks",
+      "type": "anim",
       "arg0": [
         {
             "type": "field_number",
@@ -201,35 +269,12 @@
             "text": 2
         }
       ],
-      "message0": "播放动作 %1 等待 %2 秒",
-      "category": "Looks",
-      "examples": [
-        {
-            "desc": "",
-            "code": "anim(4)\nmove(3, 0, 0, 2)\nanim(0)\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#7abb55",
-      "type": "anim",
-      "helpUrl": "",
-      "canRun": true
+      "helpUrl": ""
   },
   {
-      "arg0": [
-        {
-            "type": "field_number",
-            "name": "timeFrom",
-            "text": 10
-        },
-        {
-            "type": "field_number",
-            "name": "timeTo",
-            "text": 1000
-        }
-      ],
+      "func_description": "play(%d, %d)",
       "message0": "播放从%1到%2毫秒",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "播放电影方块中的角色动画",
@@ -238,11 +283,8 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "play",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
             "type": "field_number",
@@ -255,8 +297,12 @@
             "text": 1000
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "playLoop(%d, %d)",
       "message0": "循环播放从%1到%2毫秒",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "播放电影方块中的角色动画",
@@ -265,14 +311,26 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "playLoop",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [
+        {
+            "type": "field_number",
+            "name": "timeFrom",
+            "text": 10
+        },
+        {
+            "type": "field_number",
+            "name": "timeTo",
+            "text": 1000
+        }
+      ],
+      "helpUrl": ""
   },
   {
-      "arg0": [],
+      "func_description": "stop()",
       "message0": "停止播放",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "播放/暂停角色动画",
@@ -281,20 +339,15 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "stop",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [],
+      "helpUrl": ""
   },
   {
-      "arg0": [
-        {
-            "type": "field_number",
-            "name": "scaleDelta",
-            "text": 10
-        }
-      ],
+      "func_description": "scale(%d)",
       "message0": "放缩百分之%1",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -303,20 +356,21 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "scale",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
             "type": "field_number",
-            "name": "scale",
-            "text": 100
+            "name": "scaleDelta",
+            "text": 10
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "scaleTo(%d)",
       "message0": "放缩到百分之%1",
-      "category": "Looks",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -325,14 +379,45 @@
         }
       ],
       "colour": "#7abb55",
+      "category": "Looks",
       "type": "scaleTo",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [
+        {
+            "type": "field_number",
+            "name": "scale",
+            "text": 100
+        }
+      ],
+      "helpUrl": ""
   },
   {
-      "arg0": [],
-      "message0": "放缩尺寸",
+      "func_description": "focus(\"%s\")",
+      "color": "#cc0000",
+      "canRun": true,
+      "colour": "#7abb55",
+      "examples": [
+        {
+            "desc": "",
+            "code": "focus()\nmoveForward(2,2)\nfocus(\"player\")\n",
+            "canRun": true
+        }
+      ],
+      "message0": "观看此角色%1",
       "helpUrl": "",
+      "type": "focus",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "name",
+            "text": "myself"
+        }
+      ],
+      "category": "Looks"
+  },
+  {
+      "func_description": "getScale()",
+      "message0": "放缩尺寸",
+      "category": "Looks",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -342,14 +427,15 @@
         }
       ],
       "colour": "#7abb55",
+      "canRun": false,
       "type": "getScale",
-      "category": "Looks",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "getPlayTime()",
       "message0": "动画时间",
-      "helpUrl": "",
+      "category": "Looks",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -359,25 +445,15 @@
         }
       ],
       "colour": "#7abb55",
+      "canRun": false,
       "type": "getPlayTime",
-      "category": "Looks",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [
-        {
-            "type": "field_number",
-            "name": "dist",
-            "text": "1"
-        },
-        {
-            "type": "field_number",
-            "name": "duration",
-            "text": 0.5
-        }
-      ],
+      "func_description": "moveForward(%d, %d)",
       "message0": "前进%1格 在%2秒内",
-      "category": "Motion",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -386,20 +462,26 @@
         }
       ],
       "colour": "#0078d7",
+      "category": "Motion",
       "type": "moveForward",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
             "type": "field_number",
-            "name": "degree",
-            "text": 15
+            "name": "dist",
+            "text": 1
+        },
+        {
+            "type": "field_number",
+            "name": "duration",
+            "text": 0.5
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "turn(%d)",
       "message0": "旋转%1度",
-      "category": "Motion",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -408,20 +490,21 @@
         }
       ],
       "colour": "#0078d7",
+      "category": "Motion",
       "type": "turn",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
             "type": "field_number",
             "name": "degree",
-            "text": 90
+            "text": 15
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "turnTo(%d)",
       "message0": "旋转到%1方向",
-      "category": "Motion",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -430,20 +513,21 @@
         }
       ],
       "colour": "#0078d7",
+      "category": "Motion",
       "type": "turnTo",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
-            "type": "field_input",
-            "name": "targetName",
-            "text": "mouse-pointer"
+            "type": "field_number",
+            "name": "degree",
+            "text": 90
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "turnTo(\"%s\")",
       "message0": "转向%1",
-      "category": "Motion",
+      "canRun": true,
       "examples": [
         {
             "desc": "转向鼠标,主角,指定角色",
@@ -452,11 +536,31 @@
         }
       ],
       "colour": "#0078d7",
-      "type": "turnTo",
-      "helpUrl": "",
-      "canRun": true
+      "category": "Motion",
+      "type": "turnToTarget",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "targetName",
+            "text": "mouse-pointer"
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "move(%s, %s, %s, %s)",
+      "message0": "位移%1 %2 %3 在%4秒内",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "",
+            "code": "turnTo(0)\nmove(0.5,1,0, 0.5)\nmove(1,-1,0, 0.5)\nsay(\"jump!\", 1)\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#0078d7",
+      "category": "Motion",
+      "type": "move",
       "arg0": [
         {
             "type": "field_number",
@@ -479,21 +583,23 @@
             "text": 0.5
         }
       ],
-      "message0": "位移%1 %2 %3 在%4秒内",
-      "category": "Motion",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "moveTo(%s, %s, %s)",
+      "isDynamicNPLCode": true,
+      "helpUrl": "",
+      "colour": "#0078d7",
       "examples": [
         {
             "desc": "",
-            "code": "turnTo(0)\nmove(0.5,1,0, 0.5)\nmove(1,-1,0, 0.5)\nsay(\"jump!\", 1)\n",
-            "canRun": true
+            "code": "moveTo(19257,5,19174)\nmoveTo(\"mouse-pointer\")\nmoveTo(\"@p\")\nmoveTo(\"frog\")\n",
+            "canRun": false
         }
       ],
-      "colour": "#0078d7",
-      "type": "move",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
+      "canRun": true,
+      "message0": "瞬移到%1 %2 %3 %4",
+      "type": "moveTo",
       "arg0": [
         {
             "type": "field_number",
@@ -513,31 +619,12 @@
             "text": 0.5
         }
       ],
-      "isDynamicNPLCode": true,
-      "canRun": true,
-      "examples": [
-        {
-            "desc": "",
-            "code": "moveTo(19257,5,19174)\nmoveTo(\"mouse-pointer\")\nmoveTo(\"@p\")\nmoveTo(\"frog\")\n",
-            "canRun": false
-        }
-      ],
-      "colour": "#0078d7",
-      "category": "Motion",
-      "type": "moveTo",
-      "message0": "瞬移到%1 %2 %3 %4",
-      "helpUrl": ""
+      "category": "Motion"
   },
   {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "targetName",
-            "text": "mouse-pointer"
-        }
-      ],
+      "func_description": "moveTo(\"%s\")",
       "message0": "瞬移到%1",
-      "category": "Motion",
+      "canRun": true,
       "examples": [
         {
             "desc": "瞬移到主角，鼠标，指定角色",
@@ -546,11 +633,31 @@
         }
       ],
       "colour": "#0078d7",
+      "category": "Motion",
       "type": "moveToTarget",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "targetName",
+            "text": "mouse-pointer"
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "walk(%s, %s, %s, %s)",
+      "message0": "行走%1 %2 %3持续%4秒",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "",
+            "code": "walk(1,0) -- x,z\nwalk(0,1) -- x,z\nwalk(-1,0,-1) -- x,y,z\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#0078d7",
+      "category": "Motion",
+      "type": "walk",
       "arg0": [
         {
             "type": "field_number",
@@ -573,21 +680,22 @@
             "text": 0.5
         }
       ],
-      "message0": "行走%1 %2 %3持续%4秒",
-      "category": "Motion",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "walkForward(%s, %s)",
+      "message0": "向前走%1持续%2秒",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
-            "code": "walk(1,0) -- x,z\nwalk(0,1) -- x,z\nwalk(-1,0,-1) -- x,y,z\n",
+            "code": "turnTo(0)\nwalkForward(1)\nturn(180)\nwalkForward(1, 0.5)\n",
             "canRun": true
         }
       ],
       "colour": "#0078d7",
-      "type": "walk",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
+      "category": "Motion",
+      "type": "walkForward",
       "arg0": [
         {
             "type": "field_number",
@@ -600,24 +708,35 @@
             "text": 0.5
         }
       ],
-      "message0": "向前走%1持续%2秒",
-      "category": "Motion",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "velocity(\"%s\")",
+      "message0": "速度%1",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
-            "code": "turnTo(0)\nwalkForward(1)\nturn(180)\nwalkForward(1, 0.5)\n",
+            "code": "velocity(\"~ 10 ~\")\nwait(0.3)\nvelocity(\"add 2 ~ 2\")\nwait(2)\nvelocity(\"0 0 0\")\n",
             "canRun": true
         }
       ],
       "colour": "#0078d7",
-      "type": "walkForward",
-      "helpUrl": "",
-      "canRun": true
+      "category": "Motion",
+      "type": "velocity",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "cmd_text",
+            "text": "~ 5 ~"
+        }
+      ],
+      "helpUrl": ""
   },
   {
-      "arg0": [],
+      "func_description": "bounce()",
       "message0": "反弹",
-      "category": "Motion",
+      "canRun": true,
       "examples": [
         {
             "desc": "遇到方块反弹",
@@ -626,14 +745,15 @@
         }
       ],
       "colour": "#0078d7",
+      "category": "Motion",
       "type": "bounce",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [],
+      "helpUrl": ""
   },
   {
-      "arg0": [],
+      "func_description": "getX()",
       "message0": "X坐标",
-      "helpUrl": "",
+      "category": "Motion",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -643,14 +763,15 @@
         }
       ],
       "colour": "#0078d7",
+      "canRun": false,
       "type": "getX",
-      "category": "Motion",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "getY()",
       "message0": "Y坐标",
-      "helpUrl": "",
+      "category": "Motion",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -660,14 +781,15 @@
         }
       ],
       "colour": "#0078d7",
+      "canRun": false,
       "type": "getY",
-      "category": "Motion",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "getZ()",
       "message0": "Z坐标",
-      "helpUrl": "",
+      "category": "Motion",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -677,14 +799,15 @@
         }
       ],
       "colour": "#0078d7",
+      "canRun": false,
       "type": "getZ",
-      "category": "Motion",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "getFacing()",
       "message0": "方向",
-      "helpUrl": "",
+      "category": "Motion",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -694,20 +817,15 @@
         }
       ],
       "colour": "#0078d7",
+      "canRun": false,
       "type": "getFacing",
-      "category": "Motion",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [
-        {
-            "type": "input_statement",
-            "name": "input",
-            "text": ""
-        }
-      ],
+      "func_description": "",
       "message0": "当演员被点击时%1",
-      "category": "Events",
+      "canRun": false,
       "examples": [
         {
             "desc": "",
@@ -716,11 +834,31 @@
         }
       ],
       "colour": "#764bcc",
+      "category": "Events",
       "type": "registerClickEvent",
-      "helpUrl": "",
-      "canRun": false
+      "arg0": [
+        {
+            "type": "input_statement",
+            "name": "input",
+            "text": ""
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "",
+      "message0": "当%1键按下时%2",
+      "canRun": false,
+      "examples": [
+        {
+            "desc": "空格跳跃",
+            "code": "registerKeyPressedEvent(\"space\",function()\n    say(\"Jump!\", 1)\n    move(0,1,0, 0.5)\n    move(0,-1,0, 0.5)\n    walkForward(0)\nend)\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#764bcc",
+      "category": "Events",
+      "type": "registerKeyPressedEvent",
       "arg0": [
         {
             "type": "field_input",
@@ -733,21 +871,22 @@
             "text": ""
         }
       ],
-      "message0": "当%1键按下时%2",
-      "category": "Events",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "",
+      "message0": "当动画在%1帧时%2",
+      "canRun": false,
       "examples": [
         {
-            "desc": "空格跳跃",
-            "code": "registerKeyPressedEvent(\"space\",function()\n    say(\"Jump!\", 1)\n    move(0,1,0, 0.5)\n    move(0,-1,0, 0.5)\n    walkForward(0)\nend)\n",
+            "desc": "",
+            "code": "registerAnimationEvent(10, function()\n    say(\"anim started\", 3)\nend)\nregisterAnimationEvent(1000, function()\n    say(\"anim stopped\", 1)\nend)\nregisterClickEvent(function()\n    play(10, 1000)\nend);\nsay(\"click me!\")\n",
             "canRun": true
         }
       ],
       "colour": "#764bcc",
-      "type": "registerKeyPressedEvent",
-      "helpUrl": "",
-      "canRun": false
-  },
-  {
+      "category": "Events",
+      "type": "registerAnimationEvent",
       "arg0": [
         {
             "type": "field_number",
@@ -760,21 +899,23 @@
             "text": ""
         }
       ],
-      "message0": "当动画在%1帧时%2",
-      "category": "Events",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "",
+      "color": "#00cc00",
+      "canRun": false,
+      "colour": "#764bcc",
       "examples": [
         {
             "desc": "",
-            "code": "registerAnimationEvent(10, function()\n    say(\"anim started\", 3)\nend)\nregisterAnimationEvent(1000, function()\n    say(\"anim stopped\", 1)\nend)\nregisterClickEvent(function()\n    play(10, 1000)\nend);\nsay(\"click me!\")\n",
+            "code": "registerBroadcastEvent(\"jump\", function()\n    move(0,1,0)\n    wait(1)\n    move(0,-1,0)\nend)\nregisterClickEvent(function()\n    broadcastAndWait(\"jump\")\n    say(\"That was fun!\", 2)\nend)\nsay(\"click to jump!\")\n",
             "canRun": true
         }
       ],
-      "colour": "#764bcc",
-      "type": "registerAnimationEvent",
+      "message0": "当收到%1消息时%2",
       "helpUrl": "",
-      "canRun": false
-  },
-  {
+      "type": "registerBroadcastEvent",
       "arg0": [
         {
             "type": "field_input",
@@ -787,31 +928,13 @@
             "text": ""
         }
       ],
-      "message0": "当收到%1消息时%2",
-      "helpUrl": "",
-      "examples": [
-        {
-            "desc": "",
-            "code": "registerBroadcastEvent(\"jump\", function()\n    move(0,1,0)\n    wait(1)\n    move(0,-1,0)\nend)\nregisterClickEvent(function()\n    broadcastAndWait(\"jump\")\n    say(\"That was fun!\", 2)\nend)\nsay(\"click to jump!\")\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#764bcc",
-      "category": "Events",
-      "type": "registerBroadcastEvent",
-      "canRun": false,
-      "color": "#00cc00"
+      "category": "Events"
   },
   {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "msg",
-            "text": "message0"
-        }
-      ],
-      "message0": "广播%1消息",
-      "helpUrl": "",
+      "func_description": "",
+      "color": "#00cc00",
+      "canRun": false,
+      "colour": "#764bcc",
       "examples": [
         {
             "desc": "",
@@ -819,13 +942,9 @@
             "canRun": true
         }
       ],
-      "colour": "#764bcc",
-      "category": "Events",
+      "message0": "广播%1消息",
+      "helpUrl": "",
       "type": "broadcast",
-      "canRun": false,
-      "color": "#00cc00"
-  },
-  {
       "arg0": [
         {
             "type": "field_input",
@@ -833,8 +952,13 @@
             "text": "message0"
         }
       ],
-      "message0": "广播%1消息并等待返回",
-      "helpUrl": "",
+      "category": "Events"
+  },
+  {
+      "func_description": "",
+      "color": "#00cc00",
+      "canRun": false,
+      "colour": "#764bcc",
       "examples": [
         {
             "desc": "",
@@ -842,22 +966,22 @@
             "canRun": true
         }
       ],
-      "colour": "#764bcc",
-      "category": "Events",
+      "message0": "广播%1消息并等待返回",
+      "helpUrl": "",
       "type": "broadcastAndWait",
-      "canRun": false,
-      "color": "#00cc00"
-  },
-  {
       "arg0": [
         {
-            "type": "field_number",
-            "name": "time",
-            "text": 1
+            "type": "field_input",
+            "name": "msg",
+            "text": "message0"
         }
       ],
+      "category": "Events"
+  },
+  {
+      "func_description": "wait(%s)",
       "message0": "等待%1秒",
-      "category": "Control",
+      "canRun": false,
       "examples": [
         {
             "desc": "",
@@ -866,11 +990,31 @@
         }
       ],
       "colour": "#d83b01",
+      "category": "Control",
       "type": "wait",
-      "helpUrl": "",
-      "canRun": false
+      "arg0": [
+        {
+            "type": "field_number",
+            "name": "time",
+            "text": 1
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "for i=1, %d do\\n%send",
+      "message0": "重复%1次%2",
+      "canRun": false,
+      "examples": [
+        {
+            "desc": "",
+            "code": "for i=1, 10 do\n    moveForward(0.1)\nend\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#d83b01",
+      "category": "Control",
+      "type": "repeat",
       "arg0": [
         {
             "type": "field_number",
@@ -883,30 +1027,12 @@
             "text": ""
         }
       ],
-      "message0": "重复%1次%2",
-      "category": "Control",
-      "examples": [
-        {
-            "desc": "",
-            "code": "for i=1, 10 do\n    moveForward(0.1)\nend\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#d83b01",
-      "type": "repeat",
-      "helpUrl": "",
-      "canRun": false
+      "helpUrl": ""
   },
   {
-      "arg0": [
-        {
-            "type": "input_statement",
-            "name": "input",
-            "text": ""
-        }
-      ],
+      "func_description": "while(true) do\\n%send",
       "message0": "永远重复%1",
-      "category": "Control",
+      "canRun": false,
       "examples": [
         {
             "desc": "",
@@ -915,11 +1041,31 @@
         }
       ],
       "colour": "#d83b01",
+      "category": "Control",
       "type": "forever",
-      "helpUrl": "",
-      "canRun": false
+      "arg0": [
+        {
+            "type": "input_statement",
+            "name": "input",
+            "text": ""
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "if(%s) then\\n%selse\\n%send",
+      "message0": "如果%1那么%2否则%3",
+      "canRun": false,
+      "examples": [
+        {
+            "desc": "",
+            "code": "while(true) do\n    if(distanceTo(\"mouse-pointer\")<3) then\n        say(\"mouse-pointer\")\n    else\n        say(\"\")\n    end\n    wait(0.01)\nend\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#d83b01",
+      "category": "Control",
+      "type": "if_else",
       "arg0": [
         {
             "type": "input_expression",
@@ -937,21 +1083,22 @@
             "text": ""
         }
       ],
-      "message0": "如果%1那么%2否则%3",
-      "category": "Control",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "for %s, %s in pairs(%s) do\\n%send",
+      "message0": "每个%1,%2在%3%4",
+      "canRun": false,
       "examples": [
         {
             "desc": "",
-            "code": "while(true) do\n    if(distanceTo(\"mouse-pointer\")<3) then\n        say(\"mouse-pointer\")\n    else\n        say(\"\")\n    end\n    wait(0.01)\nend\n",
+            "code": "myData = {\n    key1=\"value1\", \n    key2=\"value2\",\n    key2=\"value2\",\n}\nfor k, v in pairs(myData) do\n    say(v, 1);\nend\n",
             "canRun": true
         }
       ],
       "colour": "#d83b01",
-      "type": "if_else",
-      "helpUrl": "",
-      "canRun": false
-  },
-  {
+      "category": "Control",
+      "type": "forKeyValue",
       "arg0": [
         {
             "type": "field_input",
@@ -974,21 +1121,22 @@
             "text": ""
         }
       ],
-      "message0": "每个%1,%2在%3%4",
-      "category": "Control",
+      "helpUrl": ""
+  },
+  {
+      "func_description": "for %s, %s in ipairs(%s) do\\n%send",
+      "message0": "每个%1,%2在数组%3%4",
+      "canRun": false,
       "examples": [
         {
             "desc": "",
-            "code": "myData = {\n    key1=\"value1\", \n    key2=\"value2\",\n    key2=\"value2\",\n}\nfor k, v in pairs(myData) do\n    say(v, 1);\nend\n",
+            "code": "myData = {\n    {x=1, y=0, z=0, duration=0.5},\n    {x=0, y=0, z=1, duration=0.5},\n    {x=-1, y=0, z=-1, duration=1},\n}\nfor i, item in ipairs(myData) do\n    move(item.x, item.y, item.z, item.duration)\nend\n",
             "canRun": true
         }
       ],
       "colour": "#d83b01",
-      "type": "forKeyValue",
-      "helpUrl": "",
-      "canRun": false
-  },
-  {
+      "category": "Control",
+      "type": "forIndexValue",
       "arg0": [
         {
             "type": "field_input",
@@ -1011,30 +1159,13 @@
             "text": ""
         }
       ],
-      "message0": "每个%1,%2在数组%3%4",
-      "category": "Control",
-      "examples": [
-        {
-            "desc": "",
-            "code": "myData = {\n    {x=1, y=0, z=0, duration=0.5},\n    {x=0, y=0, z=1, duration=0.5},\n    {x=-1, y=0, z=-1, duration=1},\n}\nfor i, item in ipairs(myData) do\n    move(item.x, item.y, item.z, item.duration)\nend\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#d83b01",
-      "type": "forKeyValue",
-      "helpUrl": "",
-      "canRun": false
+      "helpUrl": ""
   },
   {
-      "arg0": [
-        {
-            "type": "input_statement",
-            "name": "input",
-            "text": ""
-        }
-      ],
-      "message0": "当演员被复制时%1",
-      "helpUrl": "",
+      "func_description": "registerCloneEvent(function()\\n%send)",
+      "color": "#cc0000",
+      "canRun": false,
+      "colour": "#d83b01",
       "examples": [
         {
             "desc": "",
@@ -1042,53 +1173,9 @@
             "canRun": true
         }
       ],
-      "colour": "#d83b01",
-      "category": "Control",
+      "message0": "当演员被复制时%1",
+      "helpUrl": "",
       "type": "registerCloneEvent",
-      "canRun": false,
-      "color": "#cc0000"
-  },
-  {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "input",
-            "text": "myself"
-        }
-      ],
-      "message0": "复制角色%1",
-      "helpUrl": "",
-      "examples": [
-        {
-            "desc": "",
-            "code": "registerClickEvent(function()\n    move(1,0,0, 0.5)\nend)\nclone()\nclone()\nsay(\"click\")\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#d83b01",
-      "category": "Control",
-      "type": "clone",
-      "canRun": false,
-      "color": "#cc0000"
-  },
-  {
-      "arg0": [],
-      "message0": "删除角色",
-      "helpUrl": "",
-      "examples": [
-        {
-            "desc": "",
-            "code": "move(1,0)\nsay(\"Default actor will be deleted!\", 1)\ndelete()\nregisterCloneEvent(function()\n    say(\"This clone will be deleted!\", 1)\n    delete()\nend)\nfor i=1, 100 do\n    clone()\n    wait(2)\nend\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#d83b01",
-      "canRun": false,
-      "type": "delete",
-      "color": "#cc0000",
-      "category": "Control"
-  },
-  {
       "arg0": [
         {
             "type": "input_statement",
@@ -1096,8 +1183,55 @@
             "text": ""
         }
       ],
-      "message0": "并行执行%1",
+      "category": "Control"
+  },
+  {
+      "func_description": "clone(\"%s\")",
+      "color": "#cc0000",
+      "canRun": false,
+      "colour": "#d83b01",
+      "examples": [
+        {
+            "desc": "",
+            "code": "registerClickEvent(function()\n    move(1,0,0, 0.5)\nend)\nclone()\nclone()\nsay(\"click\")\n",
+            "canRun": true
+        }
+      ],
+      "message0": "复制角色%1",
       "helpUrl": "",
+      "type": "clone",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "input",
+            "text": "myself"
+        }
+      ],
+      "category": "Control"
+  },
+  {
+      "func_description": "delete()",
+      "color": "#cc0000",
+      "category": "Control",
+      "colour": "#d83b01",
+      "examples": [
+        {
+            "desc": "",
+            "code": "move(1,0)\nsay(\"Default actor will be deleted!\", 1)\ndelete()\nregisterCloneEvent(function()\n    say(\"This clone will be deleted!\", 1)\n    delete()\nend)\nfor i=1, 100 do\n    clone()\n    wait(2)\nend\n",
+            "canRun": true
+        }
+      ],
+      "canRun": false,
+      "helpUrl": "",
+      "type": "delete",
+      "arg0": [],
+      "message0": "删除角色"
+  },
+  {
+      "func_description": "run(function()\\n%send)",
+      "color": "#00cc00",
+      "canRun": false,
+      "colour": "#d83b01",
       "examples": [
         {
             "desc": "",
@@ -1105,22 +1239,22 @@
             "canRun": true
         }
       ],
-      "colour": "#d83b01",
-      "category": "Control",
+      "message0": "并行执行%1",
+      "helpUrl": "",
       "type": "run",
-      "canRun": false,
-      "color": "#00cc00"
-  },
-  {
       "arg0": [
         {
-            "type": "field_input",
+            "type": "input_statement",
             "name": "input",
-            "text": "block"
+            "text": ""
         }
       ],
+      "category": "Control"
+  },
+  {
+      "func_description": "",
       "message0": "是否碰到%1",
-      "helpUrl": "",
+      "category": "Sensing",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1130,20 +1264,21 @@
         }
       ],
       "colour": "#69b090",
+      "canRun": false,
       "type": "isTouching",
-      "category": "Sensing",
-      "canRun": false
-  },
-  {
+      "helpUrl": "",
       "arg0": [
         {
             "type": "field_input",
             "name": "input",
-            "text": "mouse-pointer"
+            "text": "block"
         }
-      ],
+      ]
+  },
+  {
+      "func_description": "",
       "message0": "到%1的距离",
-      "helpUrl": "",
+      "category": "Sensing",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1153,20 +1288,21 @@
         }
       ],
       "colour": "#69b090",
+      "canRun": false,
       "type": "distanceTo",
-      "category": "Sensing",
-      "canRun": false
-  },
-  {
+      "helpUrl": "",
       "arg0": [
         {
             "type": "field_input",
             "name": "input",
-            "text": "space"
+            "text": "mouse-pointer"
         }
-      ],
+      ]
+  },
+  {
+      "func_description": "",
       "message0": "%1键是否按下",
-      "helpUrl": "",
+      "category": "Sensing",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1176,14 +1312,21 @@
         }
       ],
       "colour": "#69b090",
+      "canRun": false,
       "type": "isKeyPressed",
-      "category": "Sensing",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "input",
+            "text": "space"
+        }
+      ]
   },
   {
-      "arg0": [],
+      "func_description": "",
       "message0": "鼠标是否按下",
-      "helpUrl": "",
+      "category": "Sensing",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1193,14 +1336,15 @@
         }
       ],
       "colour": "#69b090",
+      "canRun": false,
       "type": "isMouseDown",
-      "category": "Sensing",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "",
       "message0": "鼠标选取",
-      "helpUrl": "",
+      "category": "Sensing",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1210,14 +1354,15 @@
         }
       ],
       "colour": "#69b090",
+      "canRun": false,
       "type": "mousePickBlock",
-      "category": "Sensing",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "",
       "message0": "计时器",
-      "helpUrl": "",
+      "category": "Sensing",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1227,14 +1372,15 @@
         }
       ],
       "colour": "#69b090",
+      "canRun": false,
       "type": "timer",
-      "category": "Sensing",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": []
   },
   {
-      "arg0": [],
+      "func_description": "",
       "message0": "重置计时器",
-      "category": "Sensing",
+      "canRun": true,
       "examples": [
         {
             "desc": "",
@@ -1243,13 +1389,16 @@
         }
       ],
       "colour": "#69b090",
+      "category": "Sensing",
       "type": "resetTimer",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [],
+      "helpUrl": ""
   },
   {
+      "func_description": "",
+      "message0": "设置为游戏模式 %1",
+      "helpUrl": "",
       "colour": "#69b090",
-      "type": "modeGame",
       "arg0": [
         {
             "type": "field_input",
@@ -1257,14 +1406,15 @@
             "text": "game"
         }
       ],
-      "message0": "设置为游戏模式 %1",
-      "category": "Sensing",
-      "helpUrl": "",
-      "canRun": true
+      "type": "modeGame",
+      "canRun": true,
+      "category": "Sensing"
   },
   {
+      "func_description": "",
+      "message0": "设置为编辑模式 %1",
+      "helpUrl": "",
       "colour": "#69b090",
-      "type": "modeEdit",
       "arg0": [
         {
             "type": "field_input",
@@ -1272,12 +1422,24 @@
             "text": "edit"
         }
       ],
-      "message0": "设置为编辑模式 %1",
-      "category": "Sensing",
-      "helpUrl": "",
-      "canRun": true
+      "type": "modeEdit",
+      "canRun": true,
+      "category": "Sensing"
   },
   {
+      "func_description": "",
+      "message0": "播放音符%1持续%2节拍",
+      "canRun": true,
+      "examples": [
+        {
+            "desc": "",
+            "code": "while (true) do\n    playNote(\"1\", 0.5)\n    playNote(\"2\", 0.5)\n    playNote(\"3\", 0.5)\nend\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#8f6d40",
+      "category": "Sound",
+      "type": "playNote",
       "arg0": [
         {
             "type": "field_input",
@@ -1290,30 +1452,12 @@
             "text": 0.25
         }
       ],
-      "message0": "播放音符%1持续%2节拍",
-      "category": "Sound",
-      "examples": [
-        {
-            "desc": "",
-            "code": "while (true) do\n    playNote(\"1\", 0.5)\n    playNote(\"2\", 0.5)\n    playNote(\"3\", 0.5)\nend\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#8f6d40",
-      "type": "playNote",
-      "helpUrl": "",
-      "canRun": true
+      "helpUrl": ""
   },
   {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "filename",
-            "text": "1"
-        }
-      ],
+      "func_description": "",
       "message0": "播放背景音乐%1",
-      "category": "Sound",
+      "canRun": true,
       "examples": [
         {
             "desc": "播放音乐后停止",
@@ -1322,20 +1466,21 @@
         }
       ],
       "colour": "#8f6d40",
+      "category": "Sound",
       "type": "playMusic",
-      "helpUrl": "",
-      "canRun": true
-  },
-  {
       "arg0": [
         {
             "type": "field_input",
             "name": "filename",
-            "text": "break"
+            "text": "1"
         }
       ],
+      "helpUrl": ""
+  },
+  {
+      "func_description": "",
       "message0": "播放MP3音乐%1",
-      "category": "Sound",
+      "canRun": true,
       "examples": [
         {
             "desc": "播放音乐后停止",
@@ -1344,11 +1489,33 @@
         }
       ],
       "colour": "#8f6d40",
+      "category": "Sound",
       "type": "playSound",
-      "helpUrl": "",
-      "canRun": true
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "filename",
+            "text": "break"
+        }
+      ],
+      "helpUrl": ""
   },
   {
+      "func_description": "",
+      "message0": "%1+%2",
+      "category": "Operators",
+      "output": { "type": "field_number" },
+      "examples": [
+        {
+            "desc": "数字的加减乘除",
+            "code": "say(\"1+1=?\")\nwait(1)\nsay(1+1)\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#569138",
+      "canRun": false,
+      "type": "addition",
+      "helpUrl": "",
       "arg0": [
         {
             "type": "input_expression",
@@ -1360,23 +1527,24 @@
             "name": "right",
             "text": ""
         }
-      ],
-      "message0": "%1+%2",
-      "helpUrl": "",
+      ]
+  },
+  {
+      "func_description": "",
+      "message0": "随机选择从%1到%2",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
-            "desc": "数字的加减乘除",
-            "code": "say(\"1+1=?\")\nwait(1)\nsay(1+1)\n",
+            "desc": "",
+            "code": "while(true) do\n    say(math.random(1,100))\n    wait(0.5)\nend\n",
             "canRun": true
         }
       ],
       "colour": "#569138",
-      "type": "addition",
-      "category": "Operators",
-      "canRun": false
-  },
-  {
+      "canRun": false,
+      "type": "random",
+      "helpUrl": "",
       "arg0": [
         {
             "type": "field_number",
@@ -1388,37 +1556,12 @@
             "name": "to",
             "text": "10"
         }
-      ],
-      "message0": "随机选择从%1到%2",
-      "helpUrl": "",
-      "output": { "type": "field_number" },
-      "examples": [
-        {
-            "desc": "",
-            "code": "while(true) do\n    say(math.random(1,100))\n    wait(0.5)\nend\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#569138",
-      "type": "random",
-      "category": "Operators",
-      "canRun": false
+      ]
   },
   {
-      "arg0": [
-        {
-            "type": "input_expression",
-            "name": "left",
-            "text": ""
-        },
-        {
-            "type": "input_expression",
-            "name": "right",
-            "text": ""
-        }
-      ],
+      "func_description": "",
       "message0": "%1==%2",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1428,11 +1571,9 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "equal",
-      "category": "Operators",
-      "canRun": false
-  },
-  {
+      "helpUrl": "",
       "arg0": [
         {
             "type": "input_expression",
@@ -1444,9 +1585,12 @@
             "name": "right",
             "text": ""
         }
-      ],
+      ]
+  },
+  {
+      "func_description": "",
       "message0": "%1 与 %2",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1456,11 +1600,9 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "and",
-      "category": "Operators",
-      "canRun": false
-  },
-  {
+      "helpUrl": "",
       "arg0": [
         {
             "type": "input_expression",
@@ -1472,9 +1614,12 @@
             "name": "right",
             "text": ""
         }
-      ],
+      ]
+  },
+  {
+      "func_description": "",
       "message0": "%1 或 %2",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1484,20 +1629,26 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "or",
-      "category": "Operators",
-      "canRun": false
-  },
-  {
+      "helpUrl": "",
       "arg0": [
         {
             "type": "input_expression",
             "name": "left",
             "text": ""
+        },
+        {
+            "type": "input_expression",
+            "name": "right",
+            "text": ""
         }
-      ],
+      ]
+  },
+  {
+      "func_description": "",
       "message0": "不满足%1",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1507,11 +1658,33 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "not",
-      "category": "Operators",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": [
+        {
+            "type": "input_expression",
+            "name": "left",
+            "text": ""
+        }
+      ]
   },
   {
+      "func_description": "",
+      "message0": "连接字符串%1和%2",
+      "category": "Operators",
+      "output": { "type": "field_number" },
+      "examples": [
+        {
+            "desc": "",
+            "code": "say(\"hello \"..\"world\"..\"!!!\")\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#569138",
+      "canRun": false,
+      "type": "join",
+      "helpUrl": "",
       "arg0": [
         {
             "type": "field_input",
@@ -1523,32 +1696,12 @@
             "name": "right",
             "text": "world"
         }
-      ],
-      "message0": "连接字符串%1和%2",
-      "helpUrl": "",
-      "output": { "type": "field_number" },
-      "examples": [
-        {
-            "desc": "",
-            "code": "say(\"hello \"..\"world\"..\"!!!\")\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#569138",
-      "type": "join",
-      "category": "Operators",
-      "canRun": false
+      ]
   },
   {
-      "arg0": [
-        {
-            "type": "field_input",
-            "name": "left",
-            "text": "hello"
-        }
-      ],
+      "func_description": "",
       "message0": "字符串%1的长度",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1558,11 +1711,33 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "lengthOf",
-      "category": "Operators",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": [
+        {
+            "type": "field_input",
+            "name": "left",
+            "text": "hello"
+        }
+      ]
   },
   {
+      "func_description": "",
+      "message0": "%1模%2",
+      "category": "Operators",
+      "output": { "type": "field_number" },
+      "examples": [
+        {
+            "desc": "",
+            "code": "say(\"66%10==\"..(66%10))\n",
+            "canRun": true
+        }
+      ],
+      "colour": "#569138",
+      "canRun": false,
+      "type": "mod",
+      "helpUrl": "",
       "arg0": [
         {
             "type": "field_number",
@@ -1574,32 +1749,12 @@
             "name": "right",
             "text": "10"
         }
-      ],
-      "message0": "%1模%2",
-      "helpUrl": "",
-      "output": { "type": "field_number" },
-      "examples": [
-        {
-            "desc": "",
-            "code": "say(\"66%10==\"..(66%10))\n",
-            "canRun": true
-        }
-      ],
-      "colour": "#569138",
-      "type": "mod",
-      "category": "Operators",
-      "canRun": false
+      ]
   },
   {
-      "arg0": [
-        {
-            "type": "field_number",
-            "name": "left",
-            "text": 5.5
-        }
-      ],
+      "func_description": "",
       "message0": "四舍五入取整%1",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1609,20 +1764,21 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "round",
-      "category": "Operators",
-      "canRun": false
-  },
-  {
+      "helpUrl": "",
       "arg0": [
         {
             "type": "field_number",
             "name": "left",
-            "text": 9
+            "text": 5.5
         }
-      ],
+      ]
+  },
+  {
+      "func_description": "",
       "message0": "开根号%1",
-      "helpUrl": "",
+      "category": "Operators",
       "output": { "type": "field_number" },
       "examples": [
         {
@@ -1632,8 +1788,15 @@
         }
       ],
       "colour": "#569138",
+      "canRun": false,
       "type": "math.sqrt",
-      "category": "Operators",
-      "canRun": false
+      "helpUrl": "",
+      "arg0": [
+        {
+            "type": "field_number",
+            "name": "left",
+            "text": 9
+        }
+      ]
   }
 ]

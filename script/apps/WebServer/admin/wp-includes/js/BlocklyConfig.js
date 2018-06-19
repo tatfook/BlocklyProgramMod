@@ -1,3 +1,14 @@
+String.prototype.format = function () {
+    var a = this;
+    if (arguments && arguments.length > 0) {
+        var b;
+        for (b in arguments) {
+            a = a.replace(/%[a-z]/, arguments[b]);
+        }
+    }
+    return String(a);
+};
+
 var paracraft_blockly_config_source = Blockly.paracraft_blockly_config_source;
 
 Blockly.paracraft_config_map = {};
